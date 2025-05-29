@@ -8,6 +8,7 @@ using Texture = SharpGL.SceneGraph.Assets.Texture;
 using System.Collections.Generic;
 using System.Numerics;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
 
 namespace DemoSharpGL
@@ -45,7 +46,7 @@ namespace DemoSharpGL
         //light
         bool flagLighting = true;
         bool flagSpotlight = true;
-        Vector3 spotlight = new Vector3(0f, 250.0f, 0f);
+        Vector3 spotlight = new Vector3(0f, 300.0f, 0f);
 
         //start
         private Timer animationTimer;
@@ -273,10 +274,9 @@ namespace DemoSharpGL
             }
             DrawCylindricalScene(gl, radiusFloor, halfHeight, 90);
             gl.Disable(OpenGL.GL_TEXTURE_2D);
-            
-            DrawShadow(gl, radiusFloor, 100, new Vector3(x, y, 0));
+            //DrawShadow(gl, radiusFloor*1.75f, 100, new Vector3(x, -y, 0));
             gl.PopMatrix();
-
+            
             if (point)
             {
                 Points.Add(new Vector3(x, -230, 0));
@@ -298,6 +298,7 @@ namespace DemoSharpGL
             DrawSphere(gl, radiusSphere, 20, 20);
             gl.PopMatrix();
 
+            DrawProjectedShadow(gl, x);
             gl.PopMatrix();
 
             float angleValue = CalculateAngleFromPosition(x, y);
@@ -310,6 +311,98 @@ namespace DemoSharpGL
                 gridVertex[2, n].Value = (x/100f).ToString("F2");
             }
 
+        }
+
+        private void DrawProjectedShadow(OpenGL gl, float x)
+        {
+            gl.PushMatrix();
+            gl.Translate(0, -245, 0);
+            gl.Translate(x, halfHeight + 0.1, 0);
+            gl.Disable(OpenGL.GL_LIGHTING);              
+            gl.Enable(OpenGL.GL_BLEND);                   
+            gl.BlendFunc(OpenGL.GL_SRC_ALPHA, OpenGL.GL_ONE_MINUS_SRC_ALPHA);
+            //if (x > 180 || x < -180)
+            //{
+            //    gl.Color(0.0f, 0.0f, 0.0f, 0.05f);
+            //    DrawFlatOval(gl, new Vector3(0, 0, 0), radiusSphere * 1.6f, radiusSphere * 0.7f, 0);
+            //}
+            //if (x > 150 || x < -150)
+            //{
+            //    gl.Color(0.0f, 0.0f, 0.0f, 0.1f);
+            //    DrawFlatOval(gl, new Vector3(0, 0, 0), radiusSphere * 1.6f, radiusSphere * 0.7f, 0);
+            //}
+            //if (x > 150 || x < -150)
+            //{
+            //    gl.Color(0.0f, 0.0f, 0.0f, 0.1f);
+            //    DrawFlatOval(gl, new Vector3(0, 0, 0), radiusSphere * 1.6f, radiusSphere * 0.7f, 0);
+            //}
+            //if (x > 150 || x < -150)
+            //{
+            //    gl.Color(0.0f, 0.0f, 0.0f, 0.1f);
+            //    DrawFlatOval(gl, new Vector3(0, 0, 0), radiusSphere * 1.6f, radiusSphere * 0.7f, 0);
+            //}
+            //if (x > 150 || x < -150)
+            //{
+            //    gl.Color(0.0f, 0.0f, 0.0f, 0.1f);
+            //    DrawFlatOval(gl, new Vector3(0, 0, 0), radiusSphere * 1.6f, radiusSphere * 0.7f, 0);
+            //}
+            //if (x > 150 || x < -150)
+            //{
+            //    gl.Color(0.0f, 0.0f, 0.0f, 0.1f);
+            //    DrawFlatOval(gl, new Vector3(0, 0, 0), radiusSphere * 1.6f, radiusSphere * 0.7f, 0);
+            //}
+            //if (x > 150 || x < -150)
+            //{
+            //    gl.Color(0.0f, 0.0f, 0.0f, 0.1f);
+            //    DrawFlatOval(gl, new Vector3(0, 0, 0), radiusSphere * 1.6f, radiusSphere * 0.7f, 0);
+            //}
+            //if (x > 150 || x < -150)
+            //{
+            //    gl.Color(0.0f, 0.0f, 0.0f, 0.1f);
+            //    DrawFlatOval(gl, new Vector3(0, 0, 0), radiusSphere * 1.6f, radiusSphere * 0.7f, 0);
+            //}
+            //if (x > 150 || x < -150)
+            //{
+            //    gl.Color(0.0f, 0.0f, 0.0f, 0.1f);
+            //    DrawFlatOval(gl, new Vector3(0, 0, 0), radiusSphere * 1.6f, radiusSphere * 0.7f, 0);
+            //}
+            //if (x > 150 || x < -150)
+            //{
+            //    gl.Color(0.0f, 0.0f, 0.0f, 0.1f);
+            //    DrawFlatOval(gl, new Vector3(0, 0, 0), radiusSphere * 1.6f, radiusSphere * 0.7f, 0);
+            //}
+            if (x > 150 || x < -150)
+            {
+                gl.Color(0.0f, 0.0f, 0.0f, 0.1f);
+                DrawFlatOval(gl, new Vector3(0, 0, 0), radiusSphere * 1.6f, radiusSphere * 0.7f, 0);
+            }
+
+            else {
+                gl.Color(0.0f, 0.0f, 0.0f, 0.5f);
+                DrawFlatOval(gl, new Vector3(0, 0, 0), radiusSphere * 1.1f, radiusSphere * 0.8f, 0);
+            }
+            gl.Disable(OpenGL.GL_BLEND);
+            gl.Enable(OpenGL.GL_LIGHTING);
+            gl.PopMatrix();
+        }
+
+
+
+        private void DrawFlatOval(OpenGL gl, Vector3 center, float radiusX, float radiusZ, float yLevel = 0f)
+        {
+            int segments = 64;
+            gl.Begin(OpenGL.GL_TRIANGLE_FAN);
+            gl.Vertex(center.X, yLevel, center.Z);
+
+            for (int i = 0; i <= segments; i++)
+            {
+                double angle = 2.0 * Math.PI * i / segments;
+                float x = center.X + radiusX * (float)Math.Cos(angle);
+                float z = center.Z + radiusZ * (float)Math.Sin(angle);
+                gl.Vertex(x, yLevel, z);
+            }
+
+            gl.End();
         }
 
         private float CalculateAngleFromPosition(float dx, float dy)
@@ -408,8 +501,8 @@ namespace DemoSharpGL
         private bool IsPointInShadow(Vector3 P, Vector3 L, Vector3 C, float r)
         {
             // P — точка на полу (в мировых), L — позиция света, C — центр сферы, r — её радиус.
-            Vector3 d = P - L; // направление луча от света к точке на полу
-            Vector3 u = L - C; // от центра сферы к свету — неверно, заменим ниже
+            Vector3 d = P - L; 
+            Vector3 u = L - C; 
 
             float A = Vector3.Dot(d, d);
             float B = 2f * Vector3.Dot(u, d);
