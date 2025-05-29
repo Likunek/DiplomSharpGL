@@ -272,8 +272,10 @@ namespace DemoSharpGL
                 gl.Enable(OpenGL.GL_TEXTURE_2D);
                 texture.Bind(gl);
             }
-            DrawCylindricalScene(gl, radiusFloor, halfHeight, 90);
+            //DrawCylindricalScene(gl, radiusFloor, halfHeight, 90);
             gl.Disable(OpenGL.GL_TEXTURE_2D);
+
+            
             //DrawShadow(gl, radiusFloor*1.75f, 100, new Vector3(x, -y, 0));
             gl.PopMatrix();
             
@@ -298,7 +300,8 @@ namespace DemoSharpGL
             DrawSphere(gl, radiusSphere, 20, 20);
             gl.PopMatrix();
 
-            DrawProjectedShadow(gl, x);
+            DrawSection(gl, new Vector3(x, -y, 0));
+            //DrawProjectedShadow(gl, x);
             gl.PopMatrix();
 
             float angleValue = CalculateAngleFromPosition(x, y);
@@ -385,8 +388,6 @@ namespace DemoSharpGL
             gl.Enable(OpenGL.GL_LIGHTING);
             gl.PopMatrix();
         }
-
-
 
         private void DrawFlatOval(OpenGL gl, Vector3 center, float radiusX, float radiusZ, float yLevel = 0f)
         {
@@ -495,8 +496,90 @@ namespace DemoSharpGL
             gl.End();
         }
 
-        private void DrawSection() { 
+        private void DrawSection(OpenGL gl, Vector3 centerSphere) {
 
+            Vector3 P = spotlight; // Позиция прожектора
+            Vector3[] points = new Vector3[4];
+            Vector3[] directions = {
+             new Vector3(centerSphere.X, centerSphere.Y, radiusSphere),   // Спереди
+             new Vector3(centerSphere.X+radiusSphere, centerSphere.Y, 0),   // Справа
+             new Vector3(centerSphere.X, centerSphere.Y, -radiusSphere),  // Сзади
+             new Vector3(centerSphere.X-radiusSphere, centerSphere.Y, 0)   // Слева
+             };
+
+            foreach (Vector3 dir in directions)
+            {
+                Vector3 V_norm = Vector3.Normalize(dir);
+                float A = Vector3.Dot(V_norm, V_norm);
+                float B = 2 * Vector3.Dot(V_norm, P - centerSphere);
+                float C_val = Vector3.Dot(P - centerSphere, P - centerSphere) - radiusSphere * radiusSphere;
+
+                float D = B * B - 4 * A * C_val;
+
+                gl.PushMatrix();
+                gl.Color(0.2f, 0.2f, 0.2f);
+                gl.LineWidth(1f);
+                gl.Begin(OpenGL.GL_LINES);
+                gl.Vertex(spotlight.X, spotlight.Y - 150, spotlight.Z);
+                gl.Vertex(directions[0].X, directions[0].Y, directions[0].Z);
+                gl.End();
+                gl.PopMatrix();
+
+                if (D >= 0) // Дискриминант не отрицательный
+                {
+                    float t1 = (-B - (float)Math.Sqrt(D)) / (2 * A);
+                    float t2 = (-B + (float)Math.Sqrt(D)) / (2 * A);
+
+                    if (dir == directions[0] && t1 >= 0) // Спереди
+                    {
+                        points[0] = FindPointFloor(centerSphere + t1 * V_norm, new Vector3(0, 0, 0));
+                    }
+                    else if (dir == directions[1] && t1 >= 0) // Справа
+                    {
+                        points[1] = FindPointFloor(centerSphere + t1 * V_norm, new Vector3(0, 0, 0));
+                    }
+                    else if (dir == directions[2] && t1 < 0) // Сзади
+                    {
+                        points[2] = FindPointFloor(centerSphere + t1 * V_norm, new Vector3(0, 0, 0));
+                    }
+                    else if (dir == directions[3] && t1 < 0) // Слева
+                    {
+                        points[3] = FindPointFloor(centerSphere + t1 * V_norm, new Vector3(0, 0, 0));
+                    }
+                }
+            }
+            //DrawEllipseFromPoints(gl, points[0], points[1], points[2], points[3]);
+        }
+        public void DrawEllipseFromPoints(OpenGL gl, Vector3 point1, Vector3 point2, Vector3 point3, Vector3 point4)
+        {
+            float yLevel = 0;
+            int segments = 64;
+            // Вычисляем центр эллипса
+            float centerX = (point1.X + point2.X + point3.X + point4.X) / 4;
+            float centerZ = (point1.Z + point2.Z + point3.Z + point4.Z) / 4;
+
+            // Вычисляем радиусы по осям
+            float radiusX = Math.Abs(point1.X - point2.X) / 2;
+            float radiusZ = Math.Abs(point3.Z - point4.Z) / 2;
+
+            gl.Begin(OpenGL.GL_TRIANGLE_FAN);
+            gl.Vertex(centerX, yLevel, centerZ); // Центр эллипса
+
+            for (int i = 0; i <= segments; i++)
+            {
+                double angle = 2.0 * Math.PI * i / segments;
+                float x = centerX + radiusX * (float)Math.Cos(angle);
+                float z = centerZ + radiusZ * (float)Math.Sin(angle);
+                gl.Vertex(x, yLevel, z);
+            }
+
+            gl.End();
+        }
+        Vector3 FindPointFloor(Vector3 point, Vector3 direction)
+        {
+            // Уравнение пересечения с полом (y = 0)
+            float t = -point.Y / direction.Y; // Находим t для пересечения с полом
+            return point + t * direction; // Возвращаем точку пересечения с полом
         }
         private bool IsPointInShadow(Vector3 P, Vector3 L, Vector3 C, float r)
         {
@@ -540,6 +623,7 @@ namespace DemoSharpGL
             gl.Disable(OpenGL.GL_BLEND);
 
         }
+
         private void DrawFloor(OpenGL gl, float size, int count, Vector3 centreSphere)
         {
             float step = size / count;
