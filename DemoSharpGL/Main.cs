@@ -7,6 +7,7 @@ using SharpGL.SceneGraph;
 using Texture = SharpGL.SceneGraph.Assets.Texture;
 using System.Collections.Generic;
 using System.Numerics;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 
 namespace DemoSharpGL
@@ -41,11 +42,19 @@ namespace DemoSharpGL
         Color floorColor = Color.FromName("Pink");
         Color boxColor = Color.FromName("Yellow");
 
+        //light
+        bool flagLighting = true;
+        bool flagSpotlight = true;
+        Vector3 spotlight = new Vector3(0f, 250.0f, 0f);
 
         //start
         private Timer animationTimer;
         private OpenGLControl glControl;
         private bool isStarted = false;
+
+        //floor
+        private float radiusFloor = 100;
+        private float halfHeight = 2.5f;
 
         //texture
         uint[] textures = new uint[1];
@@ -146,17 +155,15 @@ namespace DemoSharpGL
             //Модель‑вид — камера
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
             gl.LoadIdentity();
+   
             gl.LookAt(distanceX, distanceY, distanceZ,
                 0, 0, 0,
                 0, 1, 0);
-            
+             SetupLighting(gl);
+             SetupSpotlight(gl);
             //Освещение и глубина
             gl.Enable(OpenGL.GL_DEPTH_TEST);
-
-            SetupLighting(gl);
-            SetupSpotlight(gl);
             
-            //gl.PolygonMode(OpenGL.GL_FRONT_AND_BACK, OpenGL.GL_FILL);
         }
 
         private void GL_OpenGLDraw(object sender, RenderEventArgs args)
@@ -177,14 +184,19 @@ namespace DemoSharpGL
             gl.LookAt(distanceX, distanceY, distanceZ,
                 0, 0, 0,
                 0, 1, 0);
-
+            if (flagLighting)
+            {
+                SetupLighting(gl);
+            }
+            if (flagSpotlight)
+            {
+                SetupSpotlight(gl);
+            }
             gl.PushMatrix();
-            gl.Translate(0.0f, 300.0f, 0.0f);    // та же позиция, что и свет
+            gl.Translate(spotlight.X, spotlight.Y, spotlight.Z);    // та же позиция, что и свет
             gl.Color(0.9f, 0.9f, 0.1f);
             DrawSphere(gl, 5, 10, 10);
             gl.PopMatrix();
-            
-            //DrawTexturedQuad(gl); // тест на квадрате
 
             DrawPendulum(gl);
 
@@ -251,12 +263,6 @@ namespace DemoSharpGL
             gl.End();
 
             gl.PushMatrix();
-            gl.Translate(x, -y, 0f);
-            gl.Color(sphereColor);
-            DrawSphere(gl, radiusSphere, 20, 20);
-            gl.PopMatrix();
-
-            gl.PushMatrix();
             gl.Scale(3.0f, 3.0f, 3.0f);
             gl.Translate(0, -85, 0);
             gl.Color(floorColor);
@@ -265,21 +271,12 @@ namespace DemoSharpGL
                 gl.Enable(OpenGL.GL_TEXTURE_2D);
                 texture.Bind(gl);
             }
-            //DrawSolidBox(gl, 150, 5, 100);
-            DrawCylindricalScene(gl, 100, 5, 90);
+            DrawCylindricalScene(gl, radiusFloor, halfHeight, 90);
             gl.Disable(OpenGL.GL_TEXTURE_2D);
-            //DrawFloor(gl);
+            
+            DrawShadow(gl, radiusFloor, 100, new Vector3(x, y, 0));
             gl.PopMatrix();
 
-            /*
-            gl.PushMatrix();
-            // gl.Rotate(-45, 0, 1, 0);
-            gl.Translate(0, 10, 0f);
-            gl.Scale(2.0f, 2.0f, 2.0f);
-            gl.Color(boxColor);
-            DrawSolidBox(gl, 10, 5, 5);    
-            gl.PopMatrix();
-            */
             if (point)
             {
                 Points.Add(new Vector3(x, -230, 0));
@@ -295,6 +292,12 @@ namespace DemoSharpGL
                 gl.Enable(OpenGL.GL_DEPTH_TEST);
             }
 
+            gl.PushMatrix();
+            gl.Translate(x, -y, 0f);
+            gl.Color(sphereColor);
+            DrawSphere(gl, radiusSphere, 20, 20);
+            gl.PopMatrix();
+
             gl.PopMatrix();
 
             float angleValue = CalculateAngleFromPosition(x, y);
@@ -306,6 +309,7 @@ namespace DemoSharpGL
                 gridVertex[1, n].Value = angleValue.ToString("F2");
                 gridVertex[2, n].Value = (x/100f).ToString("F2");
             }
+
         }
 
         private float CalculateAngleFromPosition(float dx, float dy)
@@ -328,78 +332,8 @@ namespace DemoSharpGL
             return angleRad * (180.0f / (float)Math.PI);
         }
 
-        private void DrawFloor(OpenGL gl) {
-            float halfX = 100f, halfY = 0f, halfZ = 100f;
-            gl.Color(floorColor);
- 
-            if (textureFlagFloor)
-            {
-                gl.Enable(OpenGL.GL_TEXTURE_2D);
-                texture.Bind(gl);
-            }
-
-            gl.Normal(0f, 1f, 1f);
-            gl.Begin(OpenGL.GL_QUADS);
-            gl.TexCoord(0, 0); gl.Vertex(-halfX, halfY, halfZ);
-            gl.TexCoord(1, 0); gl.Vertex(halfX, halfY, halfZ);
-            gl.TexCoord(1, 1); gl.Vertex(halfX, halfY, -halfZ);
-            gl.TexCoord(0, 1); gl.Vertex(-halfX, halfY, -halfZ);
-            gl.End();
-            gl.Disable(OpenGL.GL_TEXTURE_2D);
-        }
-
-        private void DrawSolidBox(OpenGL gl, float halfX, float halfY, float halfZ)
+        private void DrawCylindricalScene(OpenGL gl, float radius, float halfHeight, int segments)
         {
-            gl.Begin(OpenGL.GL_QUADS);
-
-            // Передняя грань (+Z)
-            gl.Normal(0, 0, 1);
-            gl.TexCoord(0, 0); gl.Vertex(-halfX, -halfY, halfZ);
-            gl.TexCoord(1, 0); gl.Vertex(halfX, -halfY, halfZ);
-            gl.TexCoord(1, 1); gl.Vertex(halfX, halfY, halfZ);
-            gl.TexCoord(0, 1); gl.Vertex(-halfX, halfY, halfZ);
-
-            // Задняя грань (–Z)
-            gl.Normal(0, 0, -1);
-            gl.TexCoord(0, 0); gl.Vertex(halfX, -halfY, -halfZ);
-            gl.TexCoord(1, 0); gl.Vertex(-halfX, -halfY, -halfZ);
-            gl.TexCoord(1, 1); gl.Vertex(-halfX, halfY, -halfZ);
-            gl.TexCoord(0, 1); gl.Vertex(halfX, halfY, -halfZ);
-
-            // Левая грань (–X)
-            gl.Normal(-1, 0, 0);
-            gl.TexCoord(0, 0); gl.Vertex(-halfX, -halfY, -halfZ);
-            gl.TexCoord(1, 0); gl.Vertex(-halfX, -halfY, halfZ);
-            gl.TexCoord(1, 1); gl.Vertex(-halfX, halfY, halfZ);
-            gl.TexCoord(0, 1); gl.Vertex(-halfX, halfY, -halfZ);
-
-            // Правая грань (+X)
-            gl.Normal(1, 0, 0);
-            gl.TexCoord(0, 0); gl.Vertex(halfX, -halfY, halfZ);
-            gl.TexCoord(1, 0); gl.Vertex(halfX, -halfY, -halfZ);
-            gl.TexCoord(1, 1); gl.Vertex(halfX, halfY, -halfZ);
-            gl.TexCoord(0, 1); gl.Vertex(halfX, halfY, halfZ);
-
-            // Нижняя грань (–Y)
-            gl.Normal(0, -1, 0);
-            gl.TexCoord(0, 0); gl.Vertex(-halfX, -halfY, -halfZ);
-            gl.TexCoord(1, 0); gl.Vertex(halfX, -halfY, -halfZ);
-            gl.TexCoord(1, 1); gl.Vertex(halfX, -halfY, halfZ);
-            gl.TexCoord(0, 1); gl.Vertex(-halfX, -halfY, halfZ);
-
-            // Верхняя грань (+Y)
-            gl.Normal(0, 1, 0);
-            gl.TexCoord(0, 0); gl.Vertex(-halfX, halfY, halfZ);
-            gl.TexCoord(1, 0); gl.Vertex(halfX, halfY, halfZ);
-            gl.TexCoord(1, 1); gl.Vertex(halfX, halfY, -halfZ);
-            gl.TexCoord(0, 1); gl.Vertex(-halfX, halfY, -halfZ);
-
-            gl.End();
-        }
-
-        private void DrawCylindricalScene(OpenGL gl, float radius, float height, int segments)
-        {
-            float halfHeight = height / 2.0f;
             float angleStep = 2.0f * (float)Math.PI / segments;
 
             DrawCircle(gl, radius, -halfHeight, false, segments);
@@ -439,7 +373,113 @@ namespace DemoSharpGL
                 gl.TexCoord((x / radius + 1) / 2, (z / radius + 1) / 2);
                 gl.Vertex(x, y, z);
             }
+            gl.End();
+        }
 
+        private void DrawCircleShadow(OpenGL gl, float radius, int segments, Vector3 centrSphere) {
+
+            float angleStep = 2.0f * (float)Math.PI / segments;
+
+            gl.Begin(OpenGL.GL_TRIANGLE_FAN);
+            gl.Normal(0, 1, 0);
+            gl.Vertex(0, halfHeight + 0.5f, 0);
+
+            for (int i = 0; i <= segments; i++)
+            {
+                float angle = i * angleStep;
+                float x = radius * (float)Math.Cos(angle);
+                float z = radius * (float)Math.Sin(angle);
+                if (IsPointInShadow(new Vector3(x, halfHeight + 0.5f, z), spotlight, centrSphere, radiusSphere)) 
+                {
+
+                    gl.Color(Color.Red);
+                    //gl.Enable(OpenGL.GL_LIGHT2);
+                    //gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_AMBIENT, new float[] { 0.1f, 0.1f, 0.1f, 1 });
+                }
+                gl.Vertex(x, halfHeight + 0.5f, z);
+            }
+
+            gl.End();
+        }
+
+        private void DrawSection() { 
+
+        }
+        private bool IsPointInShadow(Vector3 P, Vector3 L, Vector3 C, float r)
+        {
+            // P — точка на полу (в мировых), L — позиция света, C — центр сферы, r — её радиус.
+            Vector3 d = P - L; // направление луча от света к точке на полу
+            Vector3 u = L - C; // от центра сферы к свету — неверно, заменим ниже
+
+            float A = Vector3.Dot(d, d);
+            float B = 2f * Vector3.Dot(u, d);
+            float Cq = Vector3.Dot(u, u) - r * r;
+
+            float D = B * B - 4f * A * Cq;
+            if (D < 0f) return false;
+
+            float sqrtD = (float)Math.Sqrt(D);
+            float t1 = (-B + sqrtD) / (2f * A);
+            float t2 = (-B - sqrtD) / (2f * A);
+
+        
+            return true;
+        }
+
+        bool RayIntersectsSphere(Vector3 rayOrigin, Vector3 center, float radius)
+        {
+            // расстояние в плоскости XZ
+            Vector2 originXZ = new Vector2(rayOrigin.X, rayOrigin.Z);
+            Vector2 centerXZ = new Vector2(center.X, center.Z);
+            float distXZ = Vector2.Distance(originXZ, centerXZ);
+
+            if (distXZ > radius / 2)
+                return false;
+
+            return true;
+        }
+
+        private void DrawShadow(OpenGL gl, float radiusFloor, int segments, Vector3 centreSphere) {
+            gl.Enable(OpenGL.GL_BLEND);
+            gl.BlendFunc(OpenGL.GL_SRC_ALPHA, OpenGL.GL_ONE_MINUS_SRC_ALPHA);
+            gl.Color(1.0f, 0.0f, 0.0f, 0.0f);
+            DrawFloor(gl, radiusFloor * 1.5f, segments, centreSphere);     
+            gl.Disable(OpenGL.GL_BLEND);
+
+        }
+        private void DrawFloor(OpenGL gl, float size, int count, Vector3 centreSphere)
+        {
+            float step = size / count;
+            float start = -size / 2.0f;
+
+            for (int i = 0; i < count; i++)
+            {
+                for (int j = 0; j < count; j++)
+                { 
+                    float x0 = start + i * step;
+                    float z0 = start + j * step;
+                    float x1 = x0 + step;
+                    float z1 = z0 + step;
+                    DrawRectangle(gl, x0, z0, x1, z1, centreSphere);
+                }
+            }
+        }
+
+        private void DrawRectangle(OpenGL gl, float x0, float z0, float x1, float z1, Vector3 centreSphere)
+        {
+            if (IsPointInShadow(new Vector3((x0 + x1) / 2f, halfHeight + 0.5f, (z0 + z1) / 2f), spotlight, centreSphere, radiusSphere) &&
+                RayIntersectsSphere(new Vector3((x0 + x1) / 2f, 0, (z0 + z1) / 2f), centreSphere, radiusSphere))
+            { 
+                gl.Color(0f, 0f, 0f, 0.5f);
+            }
+            else {
+                gl.Color(1.0f, 0.0f, 0.0f, 0.0f); 
+            }
+                gl.Begin(OpenGL.GL_QUADS);
+            gl.Vertex(x0, halfHeight + 0.1, z0);
+            gl.Vertex(x1, halfHeight + 0.1, z0);
+            gl.Vertex(x1, halfHeight + 0.1, z1);
+            gl.Vertex(x0, halfHeight + 0.1, z1);
             gl.End();
         }
 
@@ -473,14 +513,13 @@ namespace DemoSharpGL
             // Сглаженное освещение
             gl.ShadeModel(OpenGL.GL_SMOOTH);
 
-
             // Цвета прожектора
             gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_AMBIENT, new float[] { 0.1f, 0.1f, 0.1f, 1 });
             gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_DIFFUSE, new float[] { 0.8f, 0.8f, 0.9f, 1 });
             gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_SPECULAR, new float[] { 0.4f, 0.4f, 0.4f, 1 });
 
             
-            float[] position = { 0.0f, 200.0f, 0f, 1.0f };
+            float[] position = { spotlight.X, spotlight.Y, spotlight.Z, 1.0f };
             gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_POSITION, position);
 
             // Направление
@@ -489,12 +528,16 @@ namespace DemoSharpGL
 
             // Параметры пятна 
             gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_SPOT_CUTOFF, 45.0f);
-            gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_SPOT_EXPONENT, 10.0f);
+            gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_SPOT_EXPONENT, 80.0f);
 
             // Опционально: коэффициенты затухания
             //gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_CONSTANT_ATTENUATION, 1.0f);
             //gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_LINEAR_ATTENUATION, 0.005f);
             //gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_QUADRATIC_ATTENUATION, 0.0001f);
+        }
+
+        private void LightShadow(OpenGL gl) { 
+
         }
 
         private void DrawSphere(OpenGL gl, float radius, int latSegments, int lonSegments)
@@ -721,24 +764,28 @@ namespace DemoSharpGL
         {
             var gl = GL.OpenGL;
             gl.Enable(OpenGL.GL_LIGHT0);
+            flagLighting = true;
         }
 
         private void radioButtonLightingOff_CheckedChanged(object sender, EventArgs e)
         {
             var gl = GL.OpenGL;
             gl.Disable(OpenGL.GL_LIGHT0);
+            flagLighting = false;
         }
 
         private void radioButtonSearchlightOn_CheckedChanged(object sender, EventArgs e)
         {
             var gl = GL.OpenGL;
             gl.Enable(OpenGL.GL_LIGHT1);
+            flagSpotlight = true;
         }
 
         private void radioButtonSearchlightOff_CheckedChanged(object sender, EventArgs e)
         {
             var gl = GL.OpenGL;
             gl.Disable(OpenGL.GL_LIGHT1);
+            flagSpotlight = false;
         }
 
         private void radioButtonProjectionOn_CheckedChanged(object sender, EventArgs e)

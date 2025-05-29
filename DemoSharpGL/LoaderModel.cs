@@ -21,12 +21,11 @@ public class LoaderModel
             Validation = SharpGLTF.Validation.ValidationMode.Skip
         });
 
-        // Выбираем первую доступную меш-сцену
         var scene = model.DefaultScene;
         gl.PushMatrix();
         gl.Rotate(90, 0, 1, 0);
         gl.Rotate(-30, 1, 0, 0);
-        gl.Translate(15.0f,150.0f, 0.0f);
+        gl.Translate(15.0f, 150.0f, 0.0f);
         foreach (var node in scene.VisualChildren)
         {
             DrawNode(gl, node);

@@ -28,14 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.ramkaVertex = new System.Windows.Forms.GroupBox();
             this.gridVertex = new System.Windows.Forms.DataGridView();
-            this.Column0 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.z = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.StepOnT = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
@@ -94,6 +91,9 @@
             this.buttonPause = new System.Windows.Forms.Button();
             this.buttonForth = new System.Windows.Forms.Button();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.Column0 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.z = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ramkaVertex.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridVertex)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -136,14 +136,14 @@
             this.gridVertex.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.gridVertex.BackgroundColor = System.Drawing.SystemColors.ActiveBorder;
             this.gridVertex.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridVertex.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridVertex.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.gridVertex.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridVertex.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column0,
@@ -157,45 +157,15 @@
             this.gridVertex.ReadOnly = true;
             this.gridVertex.RowHeadersVisible = false;
             this.gridVertex.RowHeadersWidth = 51;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            this.gridVertex.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
+            this.gridVertex.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.gridVertex.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridVertex.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridVertex.Size = new System.Drawing.Size(177, 550);
             this.gridVertex.StandardTab = true;
             this.gridVertex.TabIndex = 10;
-            // 
-            // Column0
-            // 
-            this.Column0.HeaderText = "t";
-            this.Column0.MinimumWidth = 40;
-            this.Column0.Name = "Column0";
-            this.Column0.ReadOnly = true;
-            this.Column0.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Column0.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column0.Width = 40;
-            // 
-            // z
-            // 
-            this.z.HeaderText = "angle";
-            this.z.MinimumWidth = 50;
-            this.z.Name = "z";
-            this.z.ReadOnly = true;
-            this.z.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.z.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.z.Width = 50;
-            // 
-            // Column1
-            // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column1.HeaderText = "x";
-            this.Column1.MinimumWidth = 6;
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // groupBox4
             // 
@@ -879,9 +849,9 @@
             this.buttonPause.BackColor = System.Drawing.Color.Salmon;
             this.buttonPause.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonPause.Image = ((System.Drawing.Image)(resources.GetObject("buttonPause.Image")));
-            this.buttonPause.Location = new System.Drawing.Point(0, 11);
+            this.buttonPause.Location = new System.Drawing.Point(0, 8);
             this.buttonPause.Name = "buttonPause";
-            this.buttonPause.Size = new System.Drawing.Size(75, 35);
+            this.buttonPause.Size = new System.Drawing.Size(75, 38);
             this.buttonPause.TabIndex = 13;
             this.buttonPause.UseVisualStyleBackColor = false;
             this.buttonPause.Click += new System.EventHandler(this.buttonPause_Click);
@@ -891,9 +861,9 @@
             this.buttonForth.BackColor = System.Drawing.Color.Salmon;
             this.buttonForth.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonForth.Image = ((System.Drawing.Image)(resources.GetObject("buttonForth.Image")));
-            this.buttonForth.Location = new System.Drawing.Point(85, 11);
+            this.buttonForth.Location = new System.Drawing.Point(85, 8);
             this.buttonForth.Name = "buttonForth";
-            this.buttonForth.Size = new System.Drawing.Size(75, 35);
+            this.buttonForth.Size = new System.Drawing.Size(75, 38);
             this.buttonForth.TabIndex = 14;
             this.buttonForth.UseVisualStyleBackColor = false;
             this.buttonForth.Click += new System.EventHandler(this.buttonForth_Click);
@@ -909,6 +879,36 @@
             this.groupBox8.Size = new System.Drawing.Size(160, 93);
             this.groupBox8.TabIndex = 12;
             this.groupBox8.TabStop = false;
+            // 
+            // Column0
+            // 
+            this.Column0.HeaderText = "t";
+            this.Column0.MinimumWidth = 50;
+            this.Column0.Name = "Column0";
+            this.Column0.ReadOnly = true;
+            this.Column0.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Column0.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Column0.Width = 50;
+            // 
+            // z
+            // 
+            this.z.HeaderText = "angle";
+            this.z.MinimumWidth = 60;
+            this.z.Name = "z";
+            this.z.ReadOnly = true;
+            this.z.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.z.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.z.Width = 60;
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.HeaderText = "x";
+            this.Column1.MinimumWidth = 6;
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // FormMain
             // 
@@ -980,9 +980,6 @@
         private System.Windows.Forms.NumericUpDown changeСargoWeights;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown changeResistanceParameter;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column0;
-        private System.Windows.Forms.DataGridViewTextBoxColumn z;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.Button CameraStartPoint;
         private System.Windows.Forms.Button CameraTop;
         private System.Windows.Forms.Button CameraRight;
@@ -1028,6 +1025,9 @@
         private System.Windows.Forms.Button buttonPause;
         private System.Windows.Forms.Button buttonForth;
         private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column0;
+        private System.Windows.Forms.DataGridViewTextBoxColumn z;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
     }
 }
 
