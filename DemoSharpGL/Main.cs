@@ -73,6 +73,7 @@ namespace DemoSharpGL
 
         //Model
         private LoaderModel modelLoader = new LoaderModel();
+        private LoaderModel modelLoaderCloud = new LoaderModel();
         public FormMain()
         {
             InitializeComponent();
@@ -162,6 +163,7 @@ namespace DemoSharpGL
                 0, 1, 0);
              SetupLighting(gl);
              SetupSpotlight(gl);
+            SetupSkyAmbientLight(gl);
             //Освещение и глубина
             gl.Enable(OpenGL.GL_DEPTH_TEST);
             
@@ -170,7 +172,7 @@ namespace DemoSharpGL
         private void GL_OpenGLDraw(object sender, RenderEventArgs args)
         {
             var gl = GL.OpenGL;
-
+ 
             if (!isStarted)
             {
                 gl.ClearColor(1f, 1f, 1f, 1f);
@@ -200,37 +202,53 @@ namespace DemoSharpGL
             gl.PopMatrix();
 
             DrawPendulum(gl);
+            DrawLoadModel(gl);
 
-           
-            modelLoader.LoadModel(gl, @"D:\DemoSharpGL\source\gsc_branche.glb");
-          
 
             gl.Finish();
         }
 
-        void DrawTexturedQuad(OpenGL gl)
+        void DrawLoadModel(OpenGL gl)
         {
-            gl.Enable(OpenGL.GL_TEXTURE_2D); // Включаем поддержку 2D-текстур
-            texture.Bind(gl);               // Привязываем текстуру
+            int figure = 0;
+            modelLoader.LoadModel(gl, @"D:\DemoSharpGL\source\gsc_branche.glb", figure);
+            figure++;
+            gl.PushMatrix();
+            gl.Translate(-350.0f, 100.0f, -50.0f);
+            modelLoader.LoadModel(gl, @"D:\DemoSharpGL\source\low_poly_cloud.glb", figure);
+            gl.PopMatrix();
 
             gl.PushMatrix();
-            gl.Translate(50.0f, 100.0f, 0.0f);
-            gl.Scale(200.0f, 200.0f, 200.0f);
-            gl.Color(1f, 1f, 1f);
-            
-            gl.Begin(OpenGL.GL_QUADS);
-
-            gl.TexCoord(0.0f, 0.0f); gl.Vertex(-1.0f, -1.0f, 0.0f);
-
-            gl.TexCoord(1.0f, 0.0f); gl.Vertex(1.0f, -1.0f, 0.0f);
-
-            gl.TexCoord(1.0f, 1.0f); gl.Vertex(1.0f, 1.0f, 0.0f);
-
-            gl.TexCoord(0.0f, 1.0f); gl.Vertex(-1.0f, 1.0f, 0.0f);
-
-            gl.End();
+            gl.Translate(-140.0f, 200.0f, -20.0f); 
+            gl.Rotate(0, 30, 0);         
+            gl.Scale(0.5f, 0.5f, 0.5f);
+            modelLoader.LoadModel(gl, @"D:\DemoSharpGL\source\low_poly_cloud.glb", figure);
             gl.PopMatrix();
-            //gl.Disable(OpenGL.GL_TEXTURE_2D);
+
+            gl.PushMatrix();
+            gl.Translate(230.0f, 140.0f, -100.0f);
+            gl.Rotate(0, 180, 0);
+            gl.Rotate(-30, 0, 0);
+            gl.Scale(1f, 0.85f, 1f);
+            modelLoader.LoadModel(gl, @"D:\DemoSharpGL\source\low_poly_cloud.glb", figure);
+            gl.PopMatrix();
+
+            gl.PushMatrix();
+            gl.Translate(220.0f, 180.0f, -50.0f);
+            //gl.Rotate(0, 180, 0);
+            gl.Rotate(-30, 0, 0);
+            gl.Scale(1f, 0.75f, 0.75f);
+            modelLoader.LoadModel(gl, @"D:\DemoSharpGL\source\low_poly_cloud.glb", figure);
+            gl.PopMatrix();
+
+            figure++;
+            gl.PushMatrix();
+            gl.Translate(220.0f, 180.0f, -50.0f);
+            //gl.Rotate(0, 180, 0);
+            gl.Rotate(-30, 0, 0);
+            gl.Scale(1f, 0.75f, 0.75f);
+            modelLoader.LoadModel(gl, @"D:\DemoSharpGL\source\low_poly_sun.glb", figure);
+            gl.PopMatrix();
         }
 
         private void GL_Resized(object sender, EventArgs e)
@@ -272,10 +290,8 @@ namespace DemoSharpGL
                 gl.Enable(OpenGL.GL_TEXTURE_2D);
                 texture.Bind(gl);
             }
-            //DrawCylindricalScene(gl, radiusFloor, halfHeight, 90);
+            DrawCylindricalScene(gl, radiusFloor, halfHeight, 90);
             gl.Disable(OpenGL.GL_TEXTURE_2D);
-
-            
             //DrawShadow(gl, radiusFloor*1.75f, 100, new Vector3(x, -y, 0));
             gl.PopMatrix();
             
@@ -300,10 +316,20 @@ namespace DemoSharpGL
             DrawSphere(gl, radiusSphere, 20, 20);
             gl.PopMatrix();
 
-            DrawSection(gl, new Vector3(x, -y, 0));
+            //////////////////////////////////////////////////////////////////////////////////////////////
+            Vector3 w = FindIntersection(new Vector3(spotlight.X, spotlight.Y -150, spotlight.Z), new Vector3(x, -y, 0));
+            gl.PushMatrix();
+            gl.Color(0.2f, 0.2f, 0.2f);
+            gl.LineWidth(1f);
+            gl.Begin(OpenGL.GL_LINES);
+            gl.Vertex(spotlight.X, spotlight.Y - 150, spotlight.Z);           
+            gl.Vertex(w.X, w.Y, w.Z);
+            gl.End();
+            gl.PopMatrix();
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //DrawProjectedShadow(gl, x);
             gl.PopMatrix();
-
+        
             float angleValue = CalculateAngleFromPosition(x, y);
 
             if (q%h == 0) {
@@ -496,6 +522,16 @@ namespace DemoSharpGL
             gl.End();
         }
 
+        static Vector3 FindIntersection(Vector3 A, Vector3 B)
+        {
+            Vector3 direction = Vector3.Normalize(B - A);
+
+            float t = 1 - A.Y / direction.Y;
+        
+            Vector3 intersectionPoint = new Vector3((B.X-A.X) * t + A.X, (B.Y - A.Y) * t + A.Y, (B.Z - A.Z) * t + A.Z);
+
+            return intersectionPoint;
+        }
         private void DrawSection(OpenGL gl, Vector3 centerSphere) {
 
             Vector3 P = spotlight; // Позиция прожектора
@@ -507,49 +543,22 @@ namespace DemoSharpGL
              new Vector3(centerSphere.X-radiusSphere, centerSphere.Y, 0)   // Слева
              };
 
-            foreach (Vector3 dir in directions)
-            {
-                Vector3 V_norm = Vector3.Normalize(dir);
-                float A = Vector3.Dot(V_norm, V_norm);
-                float B = 2 * Vector3.Dot(V_norm, P - centerSphere);
-                float C_val = Vector3.Dot(P - centerSphere, P - centerSphere) - radiusSphere * radiusSphere;
+            Vector3 dir = Vector3.Normalize(spotlight - directions[0]);
+            Vector3 pointOnSphere = centerSphere + dir * radius;
 
-                float D = B * B - 4 * A * C_val;
-
+            Vector3 q = FindIntersection(spotlight, centerSphere);
                 gl.PushMatrix();
                 gl.Color(0.2f, 0.2f, 0.2f);
                 gl.LineWidth(1f);
                 gl.Begin(OpenGL.GL_LINES);
                 gl.Vertex(spotlight.X, spotlight.Y - 150, spotlight.Z);
-                gl.Vertex(directions[0].X, directions[0].Y, directions[0].Z);
+                gl.Vertex(q.X, q.Y, q.Z);
                 gl.End();
                 gl.PopMatrix();
 
-                if (D >= 0) // Дискриминант не отрицательный
-                {
-                    float t1 = (-B - (float)Math.Sqrt(D)) / (2 * A);
-                    float t2 = (-B + (float)Math.Sqrt(D)) / (2 * A);
-
-                    if (dir == directions[0] && t1 >= 0) // Спереди
-                    {
-                        points[0] = FindPointFloor(centerSphere + t1 * V_norm, new Vector3(0, 0, 0));
-                    }
-                    else if (dir == directions[1] && t1 >= 0) // Справа
-                    {
-                        points[1] = FindPointFloor(centerSphere + t1 * V_norm, new Vector3(0, 0, 0));
-                    }
-                    else if (dir == directions[2] && t1 < 0) // Сзади
-                    {
-                        points[2] = FindPointFloor(centerSphere + t1 * V_norm, new Vector3(0, 0, 0));
-                    }
-                    else if (dir == directions[3] && t1 < 0) // Слева
-                    {
-                        points[3] = FindPointFloor(centerSphere + t1 * V_norm, new Vector3(0, 0, 0));
-                    }
-                }
-            }
-            //DrawEllipseFromPoints(gl, points[0], points[1], points[2], points[3]);
+                
         }
+
         public void DrawEllipseFromPoints(OpenGL gl, Vector3 point1, Vector3 point2, Vector3 point3, Vector3 point4)
         {
             float yLevel = 0;
@@ -711,6 +720,23 @@ namespace DemoSharpGL
             //gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_CONSTANT_ATTENUATION, 1.0f);
             //gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_LINEAR_ATTENUATION, 0.005f);
             //gl.Light(OpenGL.GL_LIGHT1, OpenGL.GL_QUADRATIC_ATTENUATION, 0.0001f);
+        }
+        private void SetupSkyAmbientLight(OpenGL gl)
+        {
+            gl.Enable(OpenGL.GL_LIGHTING);
+            gl.Enable(OpenGL.GL_LIGHT2);
+
+            // Голубой рассеянный свет, как от неба
+            float[] skyAmbient = { 0.3f, 0.4f, 0.6f, 1.0f };  // мягкий голубой
+            float[] skyDiffuse = { 0.5f, 0.6f, 0.8f, 1.0f };  // чуть ярче голубой
+            float[] skySpecular = { 0.2f, 0.3f, 0.4f, 1.0f }; // слабые голубые блики
+
+            float[] skyDirection = { 0.0f, 300.0f, 0.0f, 0.0f };
+
+            gl.Light(OpenGL.GL_LIGHT2, OpenGL.GL_AMBIENT, skyAmbient);
+            gl.Light(OpenGL.GL_LIGHT2, OpenGL.GL_DIFFUSE, skyDiffuse);
+            gl.Light(OpenGL.GL_LIGHT2, OpenGL.GL_SPECULAR, skySpecular);
+            gl.Light(OpenGL.GL_LIGHT2, OpenGL.GL_POSITION, skyDirection);
         }
 
         private void LightShadow(OpenGL gl) { 

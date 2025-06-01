@@ -33,17 +33,16 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.ramkaVertex = new System.Windows.Forms.GroupBox();
             this.gridVertex = new System.Windows.Forms.DataGridView();
+            this.Column0 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.z = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.StepOnT = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.radioButtonSearchlightOff = new System.Windows.Forms.RadioButton();
-            this.radioButtonSearchlightOn = new System.Windows.Forms.RadioButton();
             this.radioButtonLightingOff = new System.Windows.Forms.RadioButton();
             this.RadioButtonLightingOn = new System.Windows.Forms.RadioButton();
-            this.label13 = new System.Windows.Forms.Label();
+            this.radioButtonSearchlightOff = new System.Windows.Forms.RadioButton();
             this.GL = new SharpGL.OpenGLControl();
             this.colorDialogMain = new System.Windows.Forms.ColorDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -91,15 +90,11 @@
             this.buttonPause = new System.Windows.Forms.Button();
             this.buttonForth = new System.Windows.Forms.Button();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.Column0 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.z = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ramkaVertex.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridVertex)).BeginInit();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.StepOnT)).BeginInit();
             this.groupBox6.SuspendLayout();
-            this.groupBox9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GL)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -167,6 +162,36 @@
             this.gridVertex.StandardTab = true;
             this.gridVertex.TabIndex = 10;
             // 
+            // Column0
+            // 
+            this.Column0.HeaderText = "t";
+            this.Column0.MinimumWidth = 50;
+            this.Column0.Name = "Column0";
+            this.Column0.ReadOnly = true;
+            this.Column0.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Column0.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Column0.Width = 50;
+            // 
+            // z
+            // 
+            this.z.HeaderText = "angle";
+            this.z.MinimumWidth = 60;
+            this.z.Name = "z";
+            this.z.ReadOnly = true;
+            this.z.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.z.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.z.Width = 60;
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.HeaderText = "x";
+            this.Column1.MinimumWidth = 6;
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // groupBox4
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -206,10 +231,9 @@
             // 
             this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox6.BackColor = System.Drawing.Color.LemonChiffon;
-            this.groupBox6.Controls.Add(this.groupBox9);
             this.groupBox6.Controls.Add(this.radioButtonLightingOff);
+            this.groupBox6.Controls.Add(this.radioButtonSearchlightOff);
             this.groupBox6.Controls.Add(this.RadioButtonLightingOn);
-            this.groupBox6.Controls.Add(this.label13);
             this.groupBox6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.groupBox6.Location = new System.Drawing.Point(736, 635);
             this.groupBox6.Name = "groupBox6";
@@ -218,61 +242,14 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = " Освещение";
             // 
-            // groupBox9
-            // 
-            this.groupBox9.BackColor = System.Drawing.Color.LemonChiffon;
-            this.groupBox9.Controls.Add(this.label14);
-            this.groupBox9.Controls.Add(this.radioButtonSearchlightOff);
-            this.groupBox9.Controls.Add(this.radioButtonSearchlightOn);
-            this.groupBox9.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.groupBox9.Location = new System.Drawing.Point(0, 54);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(177, 53);
-            this.groupBox9.TabIndex = 12;
-            this.groupBox9.TabStop = false;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label14.Location = new System.Drawing.Point(6, 20);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(73, 15);
-            this.label14.TabIndex = 5;
-            this.label14.Text = "Прожектор";
-            // 
-            // radioButtonSearchlightOff
-            // 
-            this.radioButtonSearchlightOff.AutoSize = true;
-            this.radioButtonSearchlightOff.Location = new System.Drawing.Point(104, 29);
-            this.radioButtonSearchlightOff.Name = "radioButtonSearchlightOff";
-            this.radioButtonSearchlightOff.Size = new System.Drawing.Size(51, 17);
-            this.radioButtonSearchlightOff.TabIndex = 4;
-            this.radioButtonSearchlightOff.Text = "выкл";
-            this.radioButtonSearchlightOff.UseVisualStyleBackColor = true;
-            this.radioButtonSearchlightOff.CheckedChanged += new System.EventHandler(this.radioButtonSearchlightOff_CheckedChanged);
-            // 
-            // radioButtonSearchlightOn
-            // 
-            this.radioButtonSearchlightOn.AutoSize = true;
-            this.radioButtonSearchlightOn.Checked = true;
-            this.radioButtonSearchlightOn.Location = new System.Drawing.Point(104, 12);
-            this.radioButtonSearchlightOn.Name = "radioButtonSearchlightOn";
-            this.radioButtonSearchlightOn.Size = new System.Drawing.Size(43, 17);
-            this.radioButtonSearchlightOn.TabIndex = 3;
-            this.radioButtonSearchlightOn.TabStop = true;
-            this.radioButtonSearchlightOn.Text = "вкл";
-            this.radioButtonSearchlightOn.UseVisualStyleBackColor = true;
-            this.radioButtonSearchlightOn.CheckedChanged += new System.EventHandler(this.radioButtonSearchlightOn_CheckedChanged);
-            // 
             // radioButtonLightingOff
             // 
             this.radioButtonLightingOff.AutoSize = true;
-            this.radioButtonLightingOff.Location = new System.Drawing.Point(104, 36);
+            this.radioButtonLightingOff.Location = new System.Drawing.Point(26, 37);
             this.radioButtonLightingOff.Name = "radioButtonLightingOff";
-            this.radioButtonLightingOff.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonLightingOff.Size = new System.Drawing.Size(121, 17);
             this.radioButtonLightingOff.TabIndex = 2;
-            this.radioButtonLightingOff.Text = "выкл";
+            this.radioButtonLightingOff.Text = "Позиционный свет";
             this.radioButtonLightingOff.UseVisualStyleBackColor = true;
             this.radioButtonLightingOff.CheckedChanged += new System.EventHandler(this.radioButtonLightingOff_CheckedChanged);
             // 
@@ -280,25 +257,25 @@
             // 
             this.RadioButtonLightingOn.AutoSize = true;
             this.RadioButtonLightingOn.Checked = true;
-            this.RadioButtonLightingOn.Location = new System.Drawing.Point(104, 19);
+            this.RadioButtonLightingOn.Location = new System.Drawing.Point(26, 19);
             this.RadioButtonLightingOn.Name = "RadioButtonLightingOn";
-            this.RadioButtonLightingOn.Size = new System.Drawing.Size(43, 17);
+            this.RadioButtonLightingOn.Size = new System.Drawing.Size(103, 17);
             this.RadioButtonLightingOn.TabIndex = 1;
             this.RadioButtonLightingOn.TabStop = true;
-            this.RadioButtonLightingOn.Text = "вкл";
+            this.RadioButtonLightingOn.Text = "Небесный свет";
             this.RadioButtonLightingOn.UseVisualStyleBackColor = true;
             this.RadioButtonLightingOn.CheckedChanged += new System.EventHandler(this.RadioButtonLightingOn_CheckedChanged);
             // 
-            // label13
+            // radioButtonSearchlightOff
             // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label13.Location = new System.Drawing.Point(6, 29);
-            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(64, 15);
-            this.label13.TabIndex = 0;
-            this.label13.Text = "Основное";
+            this.radioButtonSearchlightOff.AutoSize = true;
+            this.radioButtonSearchlightOff.Location = new System.Drawing.Point(26, 60);
+            this.radioButtonSearchlightOff.Name = "radioButtonSearchlightOff";
+            this.radioButtonSearchlightOff.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonSearchlightOff.TabIndex = 4;
+            this.radioButtonSearchlightOff.Text = "выкл";
+            this.radioButtonSearchlightOff.UseVisualStyleBackColor = true;
+            this.radioButtonSearchlightOff.CheckedChanged += new System.EventHandler(this.radioButtonSearchlightOff_CheckedChanged);
             // 
             // GL
             // 
@@ -315,7 +292,7 @@
             this.GL.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL1_4;
             this.GL.RenderContextType = SharpGL.RenderContextType.DIBSection;
             this.GL.RenderTrigger = SharpGL.RenderTrigger.TimerBased;
-            this.GL.Size = new System.Drawing.Size(730, 744);
+            this.GL.Size = new System.Drawing.Size(730, 745);
             this.GL.TabIndex = 0;
             this.GL.OpenGLInitialized += new System.EventHandler(this.GL_OpenGLInitialized);
             this.GL.OpenGLDraw += new SharpGL.RenderEventHandler(this.GL_OpenGLDraw);
@@ -482,7 +459,7 @@
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Location = new System.Drawing.Point(909, 1004);
+            this.groupBox2.Location = new System.Drawing.Point(909, 1005);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(143, 107);
             this.groupBox2.TabIndex = 5;
@@ -838,7 +815,7 @@
             this.ButtonStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ButtonStart.Location = new System.Drawing.Point(0, 52);
             this.ButtonStart.Name = "ButtonStart";
-            this.ButtonStart.Size = new System.Drawing.Size(160, 35);
+            this.ButtonStart.Size = new System.Drawing.Size(160, 37);
             this.ButtonStart.TabIndex = 12;
             this.ButtonStart.Text = "Запуск";
             this.ButtonStart.UseVisualStyleBackColor = false;
@@ -880,36 +857,6 @@
             this.groupBox8.TabIndex = 12;
             this.groupBox8.TabStop = false;
             // 
-            // Column0
-            // 
-            this.Column0.HeaderText = "t";
-            this.Column0.MinimumWidth = 50;
-            this.Column0.Name = "Column0";
-            this.Column0.ReadOnly = true;
-            this.Column0.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Column0.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column0.Width = 50;
-            // 
-            // z
-            // 
-            this.z.HeaderText = "angle";
-            this.z.MinimumWidth = 60;
-            this.z.Name = "z";
-            this.z.ReadOnly = true;
-            this.z.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.z.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.z.Width = 60;
-            // 
-            // Column1
-            // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column1.HeaderText = "x";
-            this.Column1.MinimumWidth = 6;
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -918,7 +865,7 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.LavenderBlush;
-            this.ClientSize = new System.Drawing.Size(1091, 747);
+            this.ClientSize = new System.Drawing.Size(1091, 748);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox4);
@@ -943,8 +890,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.StepOnT)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
-            this.groupBox9.ResumeLayout(false);
-            this.groupBox9.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GL)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
@@ -1009,13 +954,9 @@
         private System.Windows.Forms.Button ButtonFloorColor;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.RadioButton radioButtonLightingOff;
         private System.Windows.Forms.RadioButton RadioButtonLightingOn;
         private System.Windows.Forms.RadioButton radioButtonSearchlightOff;
-        private System.Windows.Forms.RadioButton radioButtonSearchlightOn;
-        private System.Windows.Forms.GroupBox groupBox9;
-        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.RadioButton radioButtonProjectionOff;
         private System.Windows.Forms.RadioButton radioButtonProjectionOn;
