@@ -41,8 +41,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.radioButtonPositionalLight = new System.Windows.Forms.RadioButton();
-            this.radioButtonSpotlight = new System.Windows.Forms.RadioButton();
             this.RadioButtonHeavenlyLighting = new System.Windows.Forms.RadioButton();
+            this.radioButtonLambert = new System.Windows.Forms.RadioButton();
             this.GL = new SharpGL.OpenGLControl();
             this.colorDialogMain = new System.Windows.Forms.ColorDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -90,6 +90,8 @@
             this.buttonPause = new System.Windows.Forms.Button();
             this.buttonForth = new System.Windows.Forms.Button();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.radioButtonPhong = new System.Windows.Forms.RadioButton();
             this.ramkaVertex.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridVertex)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -106,6 +108,7 @@
             this.groupBox7.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.SuspendLayout();
             // 
             // ramkaVertex
@@ -114,11 +117,9 @@
             this.ramkaVertex.BackColor = System.Drawing.Color.LavenderBlush;
             this.ramkaVertex.Controls.Add(this.gridVertex);
             this.ramkaVertex.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ramkaVertex.Location = new System.Drawing.Point(981, 2);
-            this.ramkaVertex.Margin = new System.Windows.Forms.Padding(4);
+            this.ramkaVertex.Location = new System.Drawing.Point(736, 2);
             this.ramkaVertex.Name = "ramkaVertex";
-            this.ramkaVertex.Padding = new System.Windows.Forms.Padding(4);
-            this.ramkaVertex.Size = new System.Drawing.Size(236, 698);
+            this.ramkaVertex.Size = new System.Drawing.Size(177, 544);
             this.ramkaVertex.TabIndex = 1;
             this.ramkaVertex.TabStop = false;
             this.ramkaVertex.Text = "Список контрольных точек";
@@ -148,8 +149,7 @@
             this.Column1});
             this.gridVertex.Cursor = System.Windows.Forms.Cursors.Hand;
             this.gridVertex.GridColor = System.Drawing.SystemColors.ActiveBorder;
-            this.gridVertex.Location = new System.Drawing.Point(0, 21);
-            this.gridVertex.Margin = new System.Windows.Forms.Padding(4);
+            this.gridVertex.Location = new System.Drawing.Point(0, 17);
             this.gridVertex.MultiSelect = false;
             this.gridVertex.Name = "gridVertex";
             this.gridVertex.ReadOnly = true;
@@ -161,7 +161,7 @@
             this.gridVertex.RowsDefaultCellStyle = dataGridViewCellStyle8;
             this.gridVertex.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridVertex.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridVertex.Size = new System.Drawing.Size(236, 677);
+            this.gridVertex.Size = new System.Drawing.Size(177, 527);
             this.gridVertex.StandardTab = true;
             this.gridVertex.TabIndex = 10;
             // 
@@ -201,21 +201,21 @@
             this.groupBox4.BackColor = System.Drawing.Color.LightCoral;
             this.groupBox4.Controls.Add(this.StepOnT);
             this.groupBox4.Controls.Add(this.label6);
-            this.groupBox4.Location = new System.Drawing.Point(981, 706);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox4.Location = new System.Drawing.Point(736, 551);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox4.Size = new System.Drawing.Size(236, 68);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox4.Size = new System.Drawing.Size(177, 55);
             this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Параметр вывода";
             // 
             // StepOnT
             // 
-            this.StepOnT.Location = new System.Drawing.Point(139, 36);
-            this.StepOnT.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.StepOnT.Location = new System.Drawing.Point(104, 29);
+            this.StepOnT.Margin = new System.Windows.Forms.Padding(2);
             this.StepOnT.Name = "StepOnT";
-            this.StepOnT.Size = new System.Drawing.Size(79, 22);
+            this.StepOnT.Size = new System.Drawing.Size(59, 20);
             this.StepOnT.TabIndex = 1;
             this.StepOnT.ValueChanged += new System.EventHandler(this.StepOnT_ValueChanged);
             // 
@@ -223,9 +223,10 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.Location = new System.Drawing.Point(8, 36);
+            this.label6.Location = new System.Drawing.Point(6, 29);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(64, 18);
+            this.label6.Size = new System.Drawing.Size(53, 15);
             this.label6.TabIndex = 0;
             this.label6.Text = "Шаг по t";
             // 
@@ -234,14 +235,11 @@
             this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox6.BackColor = System.Drawing.Color.LemonChiffon;
             this.groupBox6.Controls.Add(this.radioButtonPositionalLight);
-            this.groupBox6.Controls.Add(this.radioButtonSpotlight);
             this.groupBox6.Controls.Add(this.RadioButtonHeavenlyLighting);
             this.groupBox6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.groupBox6.Location = new System.Drawing.Point(981, 782);
-            this.groupBox6.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox6.Location = new System.Drawing.Point(736, 608);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox6.Size = new System.Drawing.Size(236, 126);
+            this.groupBox6.Size = new System.Drawing.Size(177, 64);
             this.groupBox6.TabIndex = 9;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = " Освещение";
@@ -249,40 +247,37 @@
             // radioButtonPositionalLight
             // 
             this.radioButtonPositionalLight.AutoSize = true;
-            this.radioButtonPositionalLight.Location = new System.Drawing.Point(35, 46);
-            this.radioButtonPositionalLight.Margin = new System.Windows.Forms.Padding(4);
+            this.radioButtonPositionalLight.Location = new System.Drawing.Point(26, 37);
             this.radioButtonPositionalLight.Name = "radioButtonPositionalLight";
-            this.radioButtonPositionalLight.Size = new System.Drawing.Size(152, 20);
+            this.radioButtonPositionalLight.Size = new System.Drawing.Size(121, 17);
             this.radioButtonPositionalLight.TabIndex = 2;
             this.radioButtonPositionalLight.Text = "Позиционный свет";
             this.radioButtonPositionalLight.UseVisualStyleBackColor = true;
             this.radioButtonPositionalLight.CheckedChanged += new System.EventHandler(this.radioButtonPositionalLight_CheckedChanged);
             // 
-            // radioButtonSpotlight
-            // 
-            this.radioButtonSpotlight.AutoSize = true;
-            this.radioButtonSpotlight.Location = new System.Drawing.Point(35, 69);
-            this.radioButtonSpotlight.Margin = new System.Windows.Forms.Padding(4);
-            this.radioButtonSpotlight.Name = "radioButtonSpotlight";
-            this.radioButtonSpotlight.Size = new System.Drawing.Size(101, 20);
-            this.radioButtonSpotlight.TabIndex = 4;
-            this.radioButtonSpotlight.Text = "Прожектор";
-            this.radioButtonSpotlight.UseVisualStyleBackColor = true;
-            this.radioButtonSpotlight.CheckedChanged += new System.EventHandler(this.radioButtonSpotlight_CheckedChanged);
-            // 
             // RadioButtonHeavenlyLighting
             // 
             this.RadioButtonHeavenlyLighting.AutoSize = true;
             this.RadioButtonHeavenlyLighting.Checked = true;
-            this.RadioButtonHeavenlyLighting.Location = new System.Drawing.Point(35, 23);
-            this.RadioButtonHeavenlyLighting.Margin = new System.Windows.Forms.Padding(4);
+            this.RadioButtonHeavenlyLighting.Location = new System.Drawing.Point(26, 19);
             this.RadioButtonHeavenlyLighting.Name = "RadioButtonHeavenlyLighting";
-            this.RadioButtonHeavenlyLighting.Size = new System.Drawing.Size(127, 20);
+            this.RadioButtonHeavenlyLighting.Size = new System.Drawing.Size(103, 17);
             this.RadioButtonHeavenlyLighting.TabIndex = 1;
             this.RadioButtonHeavenlyLighting.TabStop = true;
             this.RadioButtonHeavenlyLighting.Text = "Небесный свет";
             this.RadioButtonHeavenlyLighting.UseVisualStyleBackColor = true;
             this.RadioButtonHeavenlyLighting.CheckedChanged += new System.EventHandler(this.RadioButtonHeavenlyLighting_CheckedChanged);
+            // 
+            // radioButtonLambert
+            // 
+            this.radioButtonLambert.AutoSize = true;
+            this.radioButtonLambert.Location = new System.Drawing.Point(26, 19);
+            this.radioButtonLambert.Name = "radioButtonLambert";
+            this.radioButtonLambert.Size = new System.Drawing.Size(70, 17);
+            this.radioButtonLambert.TabIndex = 4;
+            this.radioButtonLambert.Text = "Ламберт";
+            this.radioButtonLambert.UseVisualStyleBackColor = true;
+            this.radioButtonLambert.CheckedChanged += new System.EventHandler(this.radioButtonLambert_CheckedChanged);
             // 
             // GL
             // 
@@ -294,12 +289,12 @@
             this.GL.Cursor = System.Windows.Forms.Cursors.Cross;
             this.GL.DrawFPS = false;
             this.GL.Location = new System.Drawing.Point(-1, 2);
-            this.GL.Margin = new System.Windows.Forms.Padding(5);
+            this.GL.Margin = new System.Windows.Forms.Padding(4);
             this.GL.Name = "GL";
             this.GL.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL1_4;
             this.GL.RenderContextType = SharpGL.RenderContextType.DIBSection;
             this.GL.RenderTrigger = SharpGL.RenderTrigger.TimerBased;
-            this.GL.Size = new System.Drawing.Size(973, 916);
+            this.GL.Size = new System.Drawing.Size(730, 745);
             this.GL.TabIndex = 0;
             this.GL.OpenGLInitialized += new System.EventHandler(this.GL_OpenGLInitialized);
             this.GL.OpenGLDraw += new SharpGL.RenderEventHandler(this.GL_OpenGLDraw);
@@ -322,11 +317,9 @@
             this.groupBox1.Controls.Add(this.CameraUp);
             this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.groupBox1.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.groupBox1.Location = new System.Drawing.Point(1225, 10);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Location = new System.Drawing.Point(919, 8);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(213, 204);
+            this.groupBox1.Size = new System.Drawing.Size(160, 166);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Просмотр сцены";
@@ -336,10 +329,10 @@
             this.СounterClockwiseMovement.BackColor = System.Drawing.Color.Salmon;
             this.СounterClockwiseMovement.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.СounterClockwiseMovement.Image = ((System.Drawing.Image)(resources.GetObject("СounterClockwiseMovement.Image")));
-            this.СounterClockwiseMovement.Location = new System.Drawing.Point(143, 156);
-            this.СounterClockwiseMovement.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.СounterClockwiseMovement.Location = new System.Drawing.Point(107, 127);
+            this.СounterClockwiseMovement.Margin = new System.Windows.Forms.Padding(2);
             this.СounterClockwiseMovement.Name = "СounterClockwiseMovement";
-            this.СounterClockwiseMovement.Size = new System.Drawing.Size(45, 39);
+            this.СounterClockwiseMovement.Size = new System.Drawing.Size(34, 32);
             this.СounterClockwiseMovement.TabIndex = 9;
             this.СounterClockwiseMovement.UseVisualStyleBackColor = false;
             this.СounterClockwiseMovement.Click += new System.EventHandler(this.СounterClockwiseMovement_Click);
@@ -349,10 +342,10 @@
             this.clockwiseMovement.BackColor = System.Drawing.Color.Salmon;
             this.clockwiseMovement.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.clockwiseMovement.Image = ((System.Drawing.Image)(resources.GetObject("clockwiseMovement.Image")));
-            this.clockwiseMovement.Location = new System.Drawing.Point(25, 156);
-            this.clockwiseMovement.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.clockwiseMovement.Location = new System.Drawing.Point(19, 127);
+            this.clockwiseMovement.Margin = new System.Windows.Forms.Padding(2);
             this.clockwiseMovement.Name = "clockwiseMovement";
-            this.clockwiseMovement.Size = new System.Drawing.Size(45, 39);
+            this.clockwiseMovement.Size = new System.Drawing.Size(34, 32);
             this.clockwiseMovement.TabIndex = 8;
             this.clockwiseMovement.UseVisualStyleBackColor = false;
             this.clockwiseMovement.Click += new System.EventHandler(this.ClockwiseMovement_Click);
@@ -362,10 +355,10 @@
             this.CameraRound.BackColor = System.Drawing.Color.Salmon;
             this.CameraRound.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CameraRound.Image = ((System.Drawing.Image)(resources.GetObject("CameraRound.Image")));
-            this.CameraRound.Location = new System.Drawing.Point(84, 156);
-            this.CameraRound.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.CameraRound.Location = new System.Drawing.Point(63, 127);
+            this.CameraRound.Margin = new System.Windows.Forms.Padding(2);
             this.CameraRound.Name = "CameraRound";
-            this.CameraRound.Size = new System.Drawing.Size(45, 39);
+            this.CameraRound.Size = new System.Drawing.Size(34, 32);
             this.CameraRound.TabIndex = 7;
             this.CameraRound.UseVisualStyleBackColor = false;
             this.CameraRound.Click += new System.EventHandler(this.CameraRound_Click);
@@ -375,10 +368,10 @@
             this.distance.BackColor = System.Drawing.Color.Salmon;
             this.distance.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.distance.Image = ((System.Drawing.Image)(resources.GetObject("distance.Image")));
-            this.distance.Location = new System.Drawing.Point(149, 22);
-            this.distance.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.distance.Location = new System.Drawing.Point(112, 18);
+            this.distance.Margin = new System.Windows.Forms.Padding(2);
             this.distance.Name = "distance";
-            this.distance.Size = new System.Drawing.Size(37, 37);
+            this.distance.Size = new System.Drawing.Size(28, 30);
             this.distance.TabIndex = 6;
             this.distance.UseVisualStyleBackColor = false;
             this.distance.Click += new System.EventHandler(this.Distance_Click);
@@ -389,10 +382,10 @@
             this.Zoom.BackColor = System.Drawing.Color.Salmon;
             this.Zoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Zoom.Image = ((System.Drawing.Image)(resources.GetObject("Zoom.Image")));
-            this.Zoom.Location = new System.Drawing.Point(27, 22);
-            this.Zoom.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Zoom.Location = new System.Drawing.Point(20, 18);
+            this.Zoom.Margin = new System.Windows.Forms.Padding(2);
             this.Zoom.Name = "Zoom";
-            this.Zoom.Size = new System.Drawing.Size(37, 37);
+            this.Zoom.Size = new System.Drawing.Size(28, 30);
             this.Zoom.TabIndex = 5;
             this.Zoom.UseVisualStyleBackColor = false;
             this.Zoom.Click += new System.EventHandler(this.Zoom_Click);
@@ -402,10 +395,10 @@
             this.CameraStartPoint.BackColor = System.Drawing.Color.Salmon;
             this.CameraStartPoint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CameraStartPoint.Image = ((System.Drawing.Image)(resources.GetObject("CameraStartPoint.Image")));
-            this.CameraStartPoint.Location = new System.Drawing.Point(89, 78);
-            this.CameraStartPoint.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.CameraStartPoint.Location = new System.Drawing.Point(67, 63);
+            this.CameraStartPoint.Margin = new System.Windows.Forms.Padding(2);
             this.CameraStartPoint.Name = "CameraStartPoint";
-            this.CameraStartPoint.Size = new System.Drawing.Size(35, 34);
+            this.CameraStartPoint.Size = new System.Drawing.Size(26, 28);
             this.CameraStartPoint.TabIndex = 4;
             this.CameraStartPoint.UseVisualStyleBackColor = false;
             this.CameraStartPoint.Click += new System.EventHandler(this.CameraStartPoint_Click);
@@ -415,10 +408,10 @@
             this.CameraTop.BackColor = System.Drawing.Color.Salmon;
             this.CameraTop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CameraTop.Image = ((System.Drawing.Image)(resources.GetObject("CameraTop.Image")));
-            this.CameraTop.Location = new System.Drawing.Point(89, 119);
-            this.CameraTop.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.CameraTop.Location = new System.Drawing.Point(67, 97);
+            this.CameraTop.Margin = new System.Windows.Forms.Padding(2);
             this.CameraTop.Name = "CameraTop";
-            this.CameraTop.Size = new System.Drawing.Size(35, 22);
+            this.CameraTop.Size = new System.Drawing.Size(26, 18);
             this.CameraTop.TabIndex = 3;
             this.CameraTop.UseVisualStyleBackColor = false;
             this.CameraTop.Click += new System.EventHandler(this.CameraTop_Click);
@@ -428,10 +421,10 @@
             this.CameraRight.BackColor = System.Drawing.Color.Salmon;
             this.CameraRight.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CameraRight.Image = ((System.Drawing.Image)(resources.GetObject("CameraRight.Image")));
-            this.CameraRight.Location = new System.Drawing.Point(131, 78);
-            this.CameraRight.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.CameraRight.Location = new System.Drawing.Point(98, 63);
+            this.CameraRight.Margin = new System.Windows.Forms.Padding(2);
             this.CameraRight.Name = "CameraRight";
-            this.CameraRight.Size = new System.Drawing.Size(21, 34);
+            this.CameraRight.Size = new System.Drawing.Size(16, 28);
             this.CameraRight.TabIndex = 2;
             this.CameraRight.UseVisualStyleBackColor = false;
             this.CameraRight.Click += new System.EventHandler(this.CameraRight_Click);
@@ -441,10 +434,10 @@
             this.CameraLeft.BackColor = System.Drawing.Color.Salmon;
             this.CameraLeft.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CameraLeft.Image = ((System.Drawing.Image)(resources.GetObject("CameraLeft.Image")));
-            this.CameraLeft.Location = new System.Drawing.Point(61, 78);
-            this.CameraLeft.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.CameraLeft.Location = new System.Drawing.Point(46, 63);
+            this.CameraLeft.Margin = new System.Windows.Forms.Padding(2);
             this.CameraLeft.Name = "CameraLeft";
-            this.CameraLeft.Size = new System.Drawing.Size(21, 34);
+            this.CameraLeft.Size = new System.Drawing.Size(16, 28);
             this.CameraLeft.TabIndex = 1;
             this.CameraLeft.Text = "L";
             this.CameraLeft.UseVisualStyleBackColor = false;
@@ -456,10 +449,10 @@
             this.CameraUp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.CameraUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CameraUp.Image = ((System.Drawing.Image)(resources.GetObject("CameraUp.Image")));
-            this.CameraUp.Location = new System.Drawing.Point(89, 50);
-            this.CameraUp.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.CameraUp.Location = new System.Drawing.Point(67, 41);
+            this.CameraUp.Margin = new System.Windows.Forms.Padding(2);
             this.CameraUp.Name = "CameraUp";
-            this.CameraUp.Size = new System.Drawing.Size(35, 22);
+            this.CameraUp.Size = new System.Drawing.Size(26, 18);
             this.CameraUp.TabIndex = 0;
             this.CameraUp.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.CameraUp.UseVisualStyleBackColor = false;
@@ -468,11 +461,9 @@
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Location = new System.Drawing.Point(1212, 1237);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox2.Location = new System.Drawing.Point(909, 1005);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(191, 132);
+            this.groupBox2.Size = new System.Drawing.Size(143, 107);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             // 
@@ -489,11 +480,9 @@
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.changeLongThreads);
             this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Location = new System.Drawing.Point(1225, 226);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox3.Location = new System.Drawing.Point(919, 184);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox3.Size = new System.Drawing.Size(213, 194);
+            this.groupBox3.Size = new System.Drawing.Size(160, 158);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Параметры маятника";
@@ -501,49 +490,44 @@
             // changeResistanceParameter
             // 
             this.changeResistanceParameter.BackColor = System.Drawing.Color.MistyRose;
-            this.changeResistanceParameter.Location = new System.Drawing.Point(140, 161);
-            this.changeResistanceParameter.Margin = new System.Windows.Forms.Padding(4);
+            this.changeResistanceParameter.Location = new System.Drawing.Point(105, 131);
             this.changeResistanceParameter.Name = "changeResistanceParameter";
-            this.changeResistanceParameter.Size = new System.Drawing.Size(64, 22);
+            this.changeResistanceParameter.Size = new System.Drawing.Size(48, 20);
             this.changeResistanceParameter.TabIndex = 8;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(8, 122);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(6, 99);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(42, 18);
+            this.label5.Size = new System.Drawing.Size(34, 15);
             this.label5.TabIndex = 7;
             this.label5.Text = "Угол";
             // 
             // changeAngleOfeviation
             // 
             this.changeAngleOfeviation.BackColor = System.Drawing.Color.MistyRose;
-            this.changeAngleOfeviation.Location = new System.Drawing.Point(140, 119);
-            this.changeAngleOfeviation.Margin = new System.Windows.Forms.Padding(4);
+            this.changeAngleOfeviation.Location = new System.Drawing.Point(105, 97);
             this.changeAngleOfeviation.Name = "changeAngleOfeviation";
-            this.changeAngleOfeviation.Size = new System.Drawing.Size(64, 22);
+            this.changeAngleOfeviation.Size = new System.Drawing.Size(48, 20);
             this.changeAngleOfeviation.TabIndex = 6;
             // 
             // changeСargoWeights
             // 
             this.changeСargoWeights.BackColor = System.Drawing.Color.MistyRose;
-            this.changeСargoWeights.Location = new System.Drawing.Point(140, 81);
-            this.changeСargoWeights.Margin = new System.Windows.Forms.Padding(4);
+            this.changeСargoWeights.Location = new System.Drawing.Point(105, 66);
             this.changeСargoWeights.Name = "changeСargoWeights";
-            this.changeСargoWeights.Size = new System.Drawing.Size(64, 22);
+            this.changeСargoWeights.Size = new System.Drawing.Size(48, 20);
             this.changeСargoWeights.TabIndex = 5;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(8, 171);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(6, 139);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(109, 17);
+            this.label4.Size = new System.Drawing.Size(84, 13);
             this.label4.TabIndex = 4;
             this.label4.Text = "сопротивления";
             // 
@@ -551,10 +535,9 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(8, 153);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(6, 124);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(74, 17);
+            this.label3.Size = new System.Drawing.Size(58, 13);
             this.label3.TabIndex = 3;
             this.label3.Text = "Параметр";
             // 
@@ -562,20 +545,18 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(8, 84);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(6, 68);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(75, 18);
+            this.label2.Size = new System.Drawing.Size(61, 15);
             this.label2.TabIndex = 2;
             this.label2.Text = "Вес груза";
             // 
             // changeLongThreads
             // 
             this.changeLongThreads.BackColor = System.Drawing.Color.MistyRose;
-            this.changeLongThreads.Location = new System.Drawing.Point(140, 38);
-            this.changeLongThreads.Margin = new System.Windows.Forms.Padding(4);
+            this.changeLongThreads.Location = new System.Drawing.Point(105, 31);
             this.changeLongThreads.Name = "changeLongThreads";
-            this.changeLongThreads.Size = new System.Drawing.Size(64, 22);
+            this.changeLongThreads.Size = new System.Drawing.Size(48, 20);
             this.changeLongThreads.TabIndex = 1;
             // 
             // label1
@@ -583,10 +564,9 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label1.Location = new System.Drawing.Point(8, 41);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(6, 33);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(88, 18);
+            this.label1.Size = new System.Drawing.Size(75, 15);
             this.label1.TabIndex = 0;
             this.label1.Text = "Длина нити";
             // 
@@ -602,11 +582,11 @@
             this.groupBox5.Controls.Add(this.ButtonСolorBall);
             this.groupBox5.Controls.Add(this.label7);
             this.groupBox5.Controls.Add(this.SphereRadiusChanges);
-            this.groupBox5.Location = new System.Drawing.Point(1225, 538);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox5.Location = new System.Drawing.Point(919, 437);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox5.Size = new System.Drawing.Size(213, 162);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox5.Size = new System.Drawing.Size(160, 132);
             this.groupBox5.TabIndex = 8;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Внешний вид";
@@ -615,10 +595,9 @@
             // 
             this.ButtonFloorColor.BackColor = System.Drawing.Color.IndianRed;
             this.ButtonFloorColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ButtonFloorColor.Location = new System.Drawing.Point(137, 126);
-            this.ButtonFloorColor.Margin = new System.Windows.Forms.Padding(4);
+            this.ButtonFloorColor.Location = new System.Drawing.Point(103, 102);
             this.ButtonFloorColor.Name = "ButtonFloorColor";
-            this.ButtonFloorColor.Size = new System.Drawing.Size(67, 25);
+            this.ButtonFloorColor.Size = new System.Drawing.Size(50, 20);
             this.ButtonFloorColor.TabIndex = 7;
             this.ButtonFloorColor.Text = "цвет";
             this.ButtonFloorColor.UseVisualStyleBackColor = false;
@@ -627,9 +606,10 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(8, 130);
+            this.label10.Location = new System.Drawing.Point(6, 106);
+            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(74, 16);
+            this.label10.Size = new System.Drawing.Size(59, 13);
             this.label10.TabIndex = 6;
             this.label10.Text = "Цвет пола";
             // 
@@ -637,10 +617,10 @@
             // 
             this.ButtonBoxColor.BackColor = System.Drawing.Color.LightCoral;
             this.ButtonBoxColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ButtonBoxColor.Location = new System.Drawing.Point(137, 96);
-            this.ButtonBoxColor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ButtonBoxColor.Location = new System.Drawing.Point(103, 78);
+            this.ButtonBoxColor.Margin = new System.Windows.Forms.Padding(2);
             this.ButtonBoxColor.Name = "ButtonBoxColor";
-            this.ButtonBoxColor.Size = new System.Drawing.Size(67, 25);
+            this.ButtonBoxColor.Size = new System.Drawing.Size(50, 20);
             this.ButtonBoxColor.TabIndex = 5;
             this.ButtonBoxColor.Text = "цвет";
             this.ButtonBoxColor.UseVisualStyleBackColor = false;
@@ -649,18 +629,20 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(7, 101);
+            this.label9.Location = new System.Drawing.Point(5, 82);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(110, 16);
+            this.label9.Size = new System.Drawing.Size(88, 13);
             this.label9.TabIndex = 4;
             this.label9.Text = "Цвет платфрмы";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(8, 71);
+            this.label8.Location = new System.Drawing.Point(6, 58);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(85, 16);
+            this.label8.Size = new System.Drawing.Size(69, 13);
             this.label8.TabIndex = 3;
             this.label8.Text = "Цвет сферы";
             // 
@@ -669,10 +651,10 @@
             this.ButtonСolorBall.BackColor = System.Drawing.Color.MistyRose;
             this.ButtonСolorBall.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ButtonСolorBall.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ButtonСolorBall.Location = new System.Drawing.Point(137, 66);
-            this.ButtonСolorBall.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ButtonСolorBall.Location = new System.Drawing.Point(103, 54);
+            this.ButtonСolorBall.Margin = new System.Windows.Forms.Padding(2);
             this.ButtonСolorBall.Name = "ButtonСolorBall";
-            this.ButtonСolorBall.Size = new System.Drawing.Size(67, 25);
+            this.ButtonСolorBall.Size = new System.Drawing.Size(50, 20);
             this.ButtonСolorBall.TabIndex = 2;
             this.ButtonСolorBall.Text = "цвет";
             this.ButtonСolorBall.UseVisualStyleBackColor = false;
@@ -681,9 +663,10 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(7, 33);
+            this.label7.Location = new System.Drawing.Point(5, 27);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(103, 16);
+            this.label7.Size = new System.Drawing.Size(81, 13);
             this.label7.TabIndex = 1;
             this.label7.Text = "Радиус Сферы";
             // 
@@ -697,10 +680,10 @@
             "15",
             "20",
             "25"});
-            this.SphereRadiusChanges.Location = new System.Drawing.Point(137, 30);
-            this.SphereRadiusChanges.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.SphereRadiusChanges.Location = new System.Drawing.Point(103, 24);
+            this.SphereRadiusChanges.Margin = new System.Windows.Forms.Padding(2);
             this.SphereRadiusChanges.Name = "SphereRadiusChanges";
-            this.SphereRadiusChanges.Size = new System.Drawing.Size(65, 24);
+            this.SphereRadiusChanges.Size = new System.Drawing.Size(50, 21);
             this.SphereRadiusChanges.TabIndex = 0;
             this.SphereRadiusChanges.SelectedIndexChanged += new System.EventHandler(this.SphereRadiusChanges_SelectedIndexChanged);
             // 
@@ -712,11 +695,9 @@
             this.groupBox7.Controls.Add(this.label11);
             this.groupBox7.Controls.Add(this.TextureFloor);
             this.groupBox7.Controls.Add(this.TextureBall);
-            this.groupBox7.Location = new System.Drawing.Point(1225, 428);
-            this.groupBox7.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox7.Location = new System.Drawing.Point(919, 348);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox7.Size = new System.Drawing.Size(213, 103);
+            this.groupBox7.Size = new System.Drawing.Size(160, 84);
             this.groupBox7.TabIndex = 10;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Текстуры";
@@ -725,10 +706,9 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label12.Location = new System.Drawing.Point(8, 70);
-            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label12.Location = new System.Drawing.Point(6, 57);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(37, 18);
+            this.label12.Size = new System.Drawing.Size(30, 15);
             this.label12.TabIndex = 3;
             this.label12.Text = "Пол";
             // 
@@ -736,10 +716,9 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label11.Location = new System.Drawing.Point(8, 33);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label11.Location = new System.Drawing.Point(6, 27);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(37, 18);
+            this.label11.Size = new System.Drawing.Size(32, 15);
             this.label11.TabIndex = 2;
             this.label11.Text = "Шар";
             // 
@@ -751,10 +730,9 @@
             "Нет",
             "Песок",
             "Трава"});
-            this.TextureFloor.Location = new System.Drawing.Point(104, 63);
-            this.TextureFloor.Margin = new System.Windows.Forms.Padding(4);
+            this.TextureFloor.Location = new System.Drawing.Point(78, 51);
             this.TextureFloor.Name = "TextureFloor";
-            this.TextureFloor.Size = new System.Drawing.Size(99, 24);
+            this.TextureFloor.Size = new System.Drawing.Size(75, 21);
             this.TextureFloor.TabIndex = 1;
             this.TextureFloor.SelectedIndexChanged += new System.EventHandler(this.TextureFloor_SelectedIndexChanged);
             // 
@@ -766,10 +744,9 @@
             "Нет",
             "Кокос",
             "Цитрус"});
-            this.TextureBall.Location = new System.Drawing.Point(104, 26);
-            this.TextureBall.Margin = new System.Windows.Forms.Padding(4);
+            this.TextureBall.Location = new System.Drawing.Point(78, 21);
             this.TextureBall.Name = "TextureBall";
-            this.TextureBall.Size = new System.Drawing.Size(99, 24);
+            this.TextureBall.Size = new System.Drawing.Size(75, 21);
             this.TextureBall.TabIndex = 0;
             this.TextureBall.SelectedIndexChanged += new System.EventHandler(this.TextureBall_SelectedIndexChanged);
             // 
@@ -782,11 +759,9 @@
             this.groupBox10.Controls.Add(this.radioButtonProjectionOn);
             this.groupBox10.Controls.Add(this.label15);
             this.groupBox10.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.groupBox10.Location = new System.Drawing.Point(1225, 709);
-            this.groupBox10.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox10.Location = new System.Drawing.Point(919, 576);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox10.Size = new System.Drawing.Size(213, 97);
+            this.groupBox10.Size = new System.Drawing.Size(160, 79);
             this.groupBox10.TabIndex = 11;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Проекция движения";
@@ -794,10 +769,9 @@
             // radioButtonСlearPoint
             // 
             this.radioButtonСlearPoint.AutoSize = true;
-            this.radioButtonСlearPoint.Location = new System.Drawing.Point(57, 65);
-            this.radioButtonСlearPoint.Margin = new System.Windows.Forms.Padding(4);
+            this.radioButtonСlearPoint.Location = new System.Drawing.Point(43, 53);
             this.radioButtonСlearPoint.Name = "radioButtonСlearPoint";
-            this.radioButtonСlearPoint.Size = new System.Drawing.Size(90, 20);
+            this.radioButtonСlearPoint.Size = new System.Drawing.Size(72, 17);
             this.radioButtonСlearPoint.TabIndex = 3;
             this.radioButtonСlearPoint.TabStop = true;
             this.radioButtonСlearPoint.Text = "Очистить";
@@ -808,10 +782,9 @@
             // 
             this.radioButtonProjectionOff.AutoSize = true;
             this.radioButtonProjectionOff.Checked = true;
-            this.radioButtonProjectionOff.Location = new System.Drawing.Point(57, 44);
-            this.radioButtonProjectionOff.Margin = new System.Windows.Forms.Padding(4);
+            this.radioButtonProjectionOff.Location = new System.Drawing.Point(43, 36);
             this.radioButtonProjectionOff.Name = "radioButtonProjectionOff";
-            this.radioButtonProjectionOff.Size = new System.Drawing.Size(60, 20);
+            this.radioButtonProjectionOff.Size = new System.Drawing.Size(51, 17);
             this.radioButtonProjectionOff.TabIndex = 2;
             this.radioButtonProjectionOff.TabStop = true;
             this.radioButtonProjectionOff.Text = "выкл";
@@ -820,10 +793,9 @@
             // radioButtonProjectionOn
             // 
             this.radioButtonProjectionOn.AutoSize = true;
-            this.radioButtonProjectionOn.Location = new System.Drawing.Point(57, 23);
-            this.radioButtonProjectionOn.Margin = new System.Windows.Forms.Padding(4);
+            this.radioButtonProjectionOn.Location = new System.Drawing.Point(43, 19);
             this.radioButtonProjectionOn.Name = "radioButtonProjectionOn";
-            this.radioButtonProjectionOn.Size = new System.Drawing.Size(51, 20);
+            this.radioButtonProjectionOn.Size = new System.Drawing.Size(43, 17);
             this.radioButtonProjectionOn.TabIndex = 1;
             this.radioButtonProjectionOn.Text = "вкл";
             this.radioButtonProjectionOn.UseVisualStyleBackColor = true;
@@ -831,10 +803,9 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(8, 39);
-            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label15.Location = new System.Drawing.Point(6, 32);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(0, 16);
+            this.label15.Size = new System.Drawing.Size(0, 13);
             this.label15.TabIndex = 0;
             // 
             // ButtonStart
@@ -842,10 +813,9 @@
             this.ButtonStart.BackColor = System.Drawing.Color.IndianRed;
             this.ButtonStart.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ButtonStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ButtonStart.Location = new System.Drawing.Point(0, 64);
-            this.ButtonStart.Margin = new System.Windows.Forms.Padding(4);
+            this.ButtonStart.Location = new System.Drawing.Point(0, 52);
             this.ButtonStart.Name = "ButtonStart";
-            this.ButtonStart.Size = new System.Drawing.Size(213, 46);
+            this.ButtonStart.Size = new System.Drawing.Size(160, 37);
             this.ButtonStart.TabIndex = 12;
             this.ButtonStart.Text = "Запуск";
             this.ButtonStart.UseVisualStyleBackColor = false;
@@ -856,10 +826,9 @@
             this.buttonPause.BackColor = System.Drawing.Color.Salmon;
             this.buttonPause.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonPause.Image = ((System.Drawing.Image)(resources.GetObject("buttonPause.Image")));
-            this.buttonPause.Location = new System.Drawing.Point(0, 10);
-            this.buttonPause.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonPause.Location = new System.Drawing.Point(0, 8);
             this.buttonPause.Name = "buttonPause";
-            this.buttonPause.Size = new System.Drawing.Size(100, 47);
+            this.buttonPause.Size = new System.Drawing.Size(75, 38);
             this.buttonPause.TabIndex = 13;
             this.buttonPause.UseVisualStyleBackColor = false;
             this.buttonPause.Click += new System.EventHandler(this.buttonPause_Click);
@@ -869,10 +838,9 @@
             this.buttonForth.BackColor = System.Drawing.Color.Salmon;
             this.buttonForth.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonForth.Image = ((System.Drawing.Image)(resources.GetObject("buttonForth.Image")));
-            this.buttonForth.Location = new System.Drawing.Point(113, 10);
-            this.buttonForth.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonForth.Location = new System.Drawing.Point(85, 8);
             this.buttonForth.Name = "buttonForth";
-            this.buttonForth.Size = new System.Drawing.Size(100, 47);
+            this.buttonForth.Size = new System.Drawing.Size(75, 38);
             this.buttonForth.TabIndex = 14;
             this.buttonForth.UseVisualStyleBackColor = false;
             this.buttonForth.Click += new System.EventHandler(this.buttonForth_Click);
@@ -883,26 +851,52 @@
             this.groupBox8.Controls.Add(this.buttonForth);
             this.groupBox8.Controls.Add(this.ButtonStart);
             this.groupBox8.Controls.Add(this.buttonPause);
-            this.groupBox8.Location = new System.Drawing.Point(1225, 804);
-            this.groupBox8.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox8.Location = new System.Drawing.Point(919, 653);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox8.Size = new System.Drawing.Size(213, 114);
+            this.groupBox8.Size = new System.Drawing.Size(160, 93);
             this.groupBox8.TabIndex = 12;
             this.groupBox8.TabStop = false;
             // 
+            // groupBox9
+            // 
+            this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox9.BackColor = System.Drawing.Color.Coral;
+            this.groupBox9.Controls.Add(this.radioButtonPhong);
+            this.groupBox9.Controls.Add(this.radioButtonLambert);
+            this.groupBox9.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.groupBox9.Location = new System.Drawing.Point(736, 680);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(177, 62);
+            this.groupBox9.TabIndex = 4;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Mодель освещения";
+            // 
+            // radioButtonPhong
+            // 
+            this.radioButtonPhong.AutoSize = true;
+            this.radioButtonPhong.Checked = true;
+            this.radioButtonPhong.Location = new System.Drawing.Point(26, 37);
+            this.radioButtonPhong.Name = "radioButtonPhong";
+            this.radioButtonPhong.Size = new System.Drawing.Size(53, 17);
+            this.radioButtonPhong.TabIndex = 5;
+            this.radioButtonPhong.TabStop = true;
+            this.radioButtonPhong.Text = "Фонг";
+            this.radioButtonPhong.UseVisualStyleBackColor = true;
+            this.radioButtonPhong.CheckedChanged += new System.EventHandler(this.radioButtonPhong_CheckedChanged);
+            // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.LavenderBlush;
-            this.ClientSize = new System.Drawing.Size(1455, 921);
+            this.ClientSize = new System.Drawing.Size(1091, 748);
+            this.Controls.Add(this.groupBox9);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox6);
-            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox10);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox7);
@@ -912,8 +906,7 @@
             this.Controls.Add(this.ramkaVertex);
             this.Controls.Add(this.GL);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4);
-            this.MinimumSize = new System.Drawing.Size(1234, 745);
+            this.MinimumSize = new System.Drawing.Size(930, 613);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Визуализация маятника";
@@ -940,6 +933,8 @@
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.groupBox8.ResumeLayout(false);
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -991,7 +986,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.RadioButton radioButtonPositionalLight;
         private System.Windows.Forms.RadioButton RadioButtonHeavenlyLighting;
-        private System.Windows.Forms.RadioButton radioButtonSpotlight;
+        private System.Windows.Forms.RadioButton radioButtonLambert;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.RadioButton radioButtonProjectionOff;
         private System.Windows.Forms.RadioButton radioButtonProjectionOn;
@@ -1004,6 +999,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column0;
         private System.Windows.Forms.DataGridViewTextBoxColumn z;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.RadioButton radioButtonPhong;
     }
 }
 

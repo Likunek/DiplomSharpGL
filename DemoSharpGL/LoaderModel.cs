@@ -1,12 +1,8 @@
 using SharpGL;
-using SharpGL.SceneGraph;
-using SharpGL.SceneGraph.Quadrics;
 using SharpGLTF.Schema2;
-using System;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Reflection;
+
+
 public class LoaderModel
 {
     public void LoadModel(OpenGL gl, string filePath, int figure)
