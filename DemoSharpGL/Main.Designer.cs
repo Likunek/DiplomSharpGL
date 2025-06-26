@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.ramkaVertex = new System.Windows.Forms.GroupBox();
             this.gridVertex = new System.Windows.Forms.DataGridView();
@@ -134,14 +134,14 @@
             this.gridVertex.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.gridVertex.BackgroundColor = System.Drawing.SystemColors.ActiveBorder;
             this.gridVertex.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridVertex.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridVertex.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.gridVertex.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridVertex.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column0,
@@ -155,13 +155,13 @@
             this.gridVertex.ReadOnly = true;
             this.gridVertex.RowHeadersVisible = false;
             this.gridVertex.RowHeadersWidth = 51;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.Black;
-            this.gridVertex.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
+            this.gridVertex.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.gridVertex.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridVertex.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridVertex.Size = new System.Drawing.Size(177, 527);
+            this.gridVertex.Size = new System.Drawing.Size(177, 528);
             this.gridVertex.StandardTab = true;
             this.gridVertex.TabIndex = 10;
             // 
@@ -201,7 +201,7 @@
             this.groupBox4.BackColor = System.Drawing.Color.LightCoral;
             this.groupBox4.Controls.Add(this.StepOnT);
             this.groupBox4.Controls.Add(this.label6);
-            this.groupBox4.Location = new System.Drawing.Point(736, 551);
+            this.groupBox4.Location = new System.Drawing.Point(736, 552);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
@@ -237,7 +237,7 @@
             this.groupBox6.Controls.Add(this.radioButtonPositionalLight);
             this.groupBox6.Controls.Add(this.RadioButtonHeavenlyLighting);
             this.groupBox6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.groupBox6.Location = new System.Drawing.Point(736, 608);
+            this.groupBox6.Location = new System.Drawing.Point(736, 612);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(177, 64);
             this.groupBox6.TabIndex = 9;
@@ -789,6 +789,7 @@
             this.radioButtonProjectionOff.TabStop = true;
             this.radioButtonProjectionOff.Text = "выкл";
             this.radioButtonProjectionOff.UseVisualStyleBackColor = true;
+            this.radioButtonProjectionOff.CheckedChanged += new System.EventHandler(this.radioButtonProjectionOff_CheckedChanged);
             // 
             // radioButtonProjectionOn
             // 
@@ -799,6 +800,7 @@
             this.radioButtonProjectionOn.TabIndex = 1;
             this.radioButtonProjectionOn.Text = "вкл";
             this.radioButtonProjectionOn.UseVisualStyleBackColor = true;
+            this.radioButtonProjectionOn.CheckedChanged += new System.EventHandler(this.radioButtonProjectionOn_CheckedChanged);
             // 
             // label15
             // 

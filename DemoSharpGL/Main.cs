@@ -7,6 +7,7 @@ using SharpGL.SceneGraph;
 using Texture = SharpGL.SceneGraph.Assets.Texture;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Net.NetworkInformation;
 
 
 namespace DemoSharpGL
@@ -18,7 +19,8 @@ namespace DemoSharpGL
         float m = 1.0f;
         float angle = 90.0f;
         private float beta;              // коэффициент затухания (β)
-        private float omega;             // собственная угловая частота (ω)
+        private float omega0;             // собственная угловая частота (ω)
+     
         private float x0;                // начальная амплитуда (в радианах)
         const float gravity = 9.81f;
         const float phi0 = 0.0f;         // начальная фаза (φ0)
@@ -39,7 +41,8 @@ namespace DemoSharpGL
         //color
         Color sphereColor = Color.FromName("Pink");
         Color floorColor = Color.FromName("Pink");
-        Color boxColor = Color.FromName("Yellow");
+        Vector3 boxColor = new Vector3(0.71f, 0.40f, 0.11f);
+
 
         //light
         bool flagLighting = true;
@@ -72,7 +75,6 @@ namespace DemoSharpGL
 
         //Model
         private LoaderModel modelLoader = new LoaderModel();
-        private LoaderModel modelLoaderCloud = new LoaderModel();
         public FormMain()
         {
             InitializeComponent();
@@ -114,19 +116,19 @@ namespace DemoSharpGL
             TextureBall.SelectedIndex = 0;
             TextureFloor.SelectedIndex = 0;
 
-            StepOnT.Increment = 10;
+            StepOnT.Increment = 5;
             StepOnT.Minimum = 0;
             StepOnT.Maximum = 100;
             StepOnT.Value = (decimal)h;
         }
-
+         
         private void FillingInTheParameters() {
             lenght = (float)changeLongThreads.Value;
             m = (int)changeСargoWeights.Value;
             angle = (int)changeAngleOfeviation.Value;
             f = (float)changeResistanceParameter.Value;
         
-            omega = (float)Math.Sqrt(gravity / lenght);
+            omega0 = (float)Math.Sqrt(gravity / lenght);
             beta = -f / 2 * m;
             x0 = (float)Math.PI * angle / 180;
         }
@@ -162,10 +164,10 @@ namespace DemoSharpGL
                 0, 1, 0);
             SetupLightingPhong(gl);
             SetupLightingLambert(gl);
-            SetupSkyAmbientLight(gl);
+            SetupSkyAmbientLightPhong(gl);
+            SetupSkyAmbientLightLambert(gl);
             //Освещение и глубина
-            gl.Enable(OpenGL.GL_DEPTH_TEST);
-            
+            gl.Enable(OpenGL.GL_DEPTH_TEST);            
         }
 
         private void GL_OpenGLDraw(object sender, RenderEventArgs args)
@@ -175,7 +177,6 @@ namespace DemoSharpGL
             if (!isStarted)
             {
                 gl.ClearColor(1f, 1f, 1f, 1f);
-              // gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
                 return;
             }
 
@@ -186,11 +187,8 @@ namespace DemoSharpGL
             gl.LookAt(distanceX, distanceY, distanceZ,
                 0, 0, 0,
                 0, 1, 0);
-       
             DrawPendulum(gl);
             DrawLoadModel(gl);
-
-
             gl.Finish();
         }
 
@@ -198,7 +196,7 @@ namespace DemoSharpGL
         {
             int figure = 0;
             gl.PushMatrix();
-            gl.Color(0.71f, 0.40f, 0.11f);
+            gl.Color(boxColor.X, boxColor.Y, boxColor.Z);
             gl.Rotate(90, 0, 1, 0);
             gl.Rotate(-30, 1, 0, 0);
             gl.Translate(15.0f, 150.0f, 0.0f);
@@ -257,6 +255,7 @@ namespace DemoSharpGL
         {
             time += deltaTime;
             // вычисляем новый угол по формуле x0 e^(−βt) cos(ωt + φ0)
+            double omega = Math.Sqrt(omega0 * omega0 - beta * beta);
             angle = x0 * (float)Math.Exp(beta * time) * (float)Math.Cos(omega * time + phi0);
         }
 
@@ -289,7 +288,6 @@ namespace DemoSharpGL
             }
             DrawCylindricalScene(gl, radiusFloor, halfHeight, 90);
             gl.Disable(OpenGL.GL_TEXTURE_2D);
-            //DrawShadow(gl, radiusFloor*1.75f, 100, new Vector3(x, -y, 0));
             gl.PopMatrix();
             
             if (point)
@@ -313,10 +311,8 @@ namespace DemoSharpGL
             DrawSphere(gl, radiusSphere, 20, 20);
             gl.PopMatrix();
 
-            //////////////////////////////////////////////////////////////////////////////////////////////
             DrawSection(gl, new Vector3(x, -y, 0));
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            //DrawProjectedShadow(gl, x);
+
             gl.PopMatrix();
         
             float angleValue = CalculateAngleFromPosition(x, y);
@@ -403,26 +399,26 @@ namespace DemoSharpGL
 
         private void DrawCylindricalScene(OpenGL gl, float radius, float halfHeight, int segments)
         {
-
             float angleStep = 2.0f * (float)Math.PI / segments;
 
             DrawCircle(gl, radius, -halfHeight, false, segments);
 
             DrawCircle(gl, radius, halfHeight, true, segments);
 
-            gl.Begin(OpenGL.GL_QUAD_STRIP);
+           gl.Begin(OpenGL.GL_QUAD_STRIP);
             for (int i = 0; i <= segments; i++)
             {
                 float angle = i * angleStep;
                 float x = radius * (float)Math.Cos(angle);
                 float z = radius * (float)Math.Sin(angle);
-                float s = (float)i / segments; 
+                float s = (float)i / segments;
 
-                gl.Normal(0, 1, 0);
+                gl.Normal(x / radius, 0, z / radius);
                 gl.TexCoord(s, 0); gl.Vertex(x, -halfHeight, z);
                 gl.TexCoord(s, 1); gl.Vertex(x, halfHeight, z);
             }
             gl.End();
+
         }
 
         private void DrawCircle(OpenGL gl, float radius, float y, bool isTop, int segments)
@@ -449,7 +445,7 @@ namespace DemoSharpGL
         private Vector3 FindIntersection(Vector3 A, Vector3 B)
         {
             Vector3 direction = B - A;
-            float D = -250f + halfHeight + 1f;
+            float D = -249f + halfHeight;
 
             float t = -( 1 * A.Y -D) / direction.Y ;
         
@@ -472,14 +468,6 @@ namespace DemoSharpGL
 
             foreach (Vector3 direction in directions) {
                 Vector3 w = FindIntersection(new Vector3(spotlight.X, spotlight.Y - 150, spotlight.Z), direction);
-                //gl.PushMatrix();
-                //gl.Color(0.2f, 0.2f, 0.2f);
-                //gl.LineWidth(1f);
-                //gl.Begin(OpenGL.GL_LINES);
-                //gl.Vertex(spotlight.X, spotlight.Y - 150, spotlight.Z);
-                //gl.Vertex(w.X, w.Y, w.Z);
-                //gl.End();
-                //gl.PopMatrix();
                 points[d] = w;
                 d += 1;
             }
@@ -514,7 +502,6 @@ namespace DemoSharpGL
             float dz = center.Z - sphereCenter.Z;
             float dist = (float)Math.Sqrt(dx * dx + dz * dz);
 
-            // 4) Линейно интерполируем α: при dist = 0 => α = 0.5; при dist >= maxDist => α = 0.
             float t = dist / maxDist;
             float alpha = (t >= 1f)
                 ? 0f
@@ -534,17 +521,17 @@ namespace DemoSharpGL
             gl.Enable(OpenGL.GL_LIGHT0);
 
             gl.Material(OpenGL.GL_FRONT_AND_BACK, OpenGL.GL_SPECULAR, new float[] { 1f, 1f, 1f, 1f });
-            gl.Material(OpenGL.GL_FRONT_AND_BACK, OpenGL.GL_SHININESS, 64);
+            gl.Material(OpenGL.GL_FRONT_AND_BACK, OpenGL.GL_SHININESS, 56);
 
             gl.Enable(OpenGL.GL_COLOR_MATERIAL);
-            gl.ColorMaterial(OpenGL.GL_FRONT_AND_BACK, OpenGL.GL_AMBIENT_AND_DIFFUSE | OpenGL.GL_SPECULAR);
+            gl.ColorMaterial(OpenGL.GL_FRONT_AND_BACK, OpenGL.GL_AMBIENT_AND_DIFFUSE);
 
             gl.Enable(OpenGL.GL_NORMALIZE);
 
             gl.Light(LightName.Light0, LightParameter.Ambient, new float[] { 0.1f, 0.1f, 0.1f, 1 });
             gl.Light(LightName.Light0, LightParameter.Diffuse, new float[] { 0.8f, 0.8f, 0.9f, 1 });
             gl.Light(LightName.Light0, LightParameter.Specular, new float[] { 0.4f, 0.4f, 0.4f, 1 });
-            // положение (после LoadIdentity — в мировых координатах)
+
             gl.Light(LightName.Light0, LightParameter.Position, new float[] { 0, 300, 0, 1 });
         }
         private void SetupLightingLambert(OpenGL gl)
@@ -563,11 +550,12 @@ namespace DemoSharpGL
             // положение (после LoadIdentity — в мировых координатах)
             gl.Light(LightName.Light1, LightParameter.Position, new float[] { 0, 300, 0, 1 });
         }
-        private void SetupSkyAmbientLight(OpenGL gl)
+        private void SetupSkyAmbientLightPhong(OpenGL gl)
         {
             gl.Enable(OpenGL.GL_LIGHTING);
             gl.Enable(OpenGL.GL_LIGHT2);
-
+            gl.Material(OpenGL.GL_FRONT_AND_BACK, OpenGL.GL_SPECULAR, new float[] { 1f, 1f, 1f, 1f });
+            gl.Material(OpenGL.GL_FRONT_AND_BACK, OpenGL.GL_SHININESS, 56);
             // Голубой рассеянный свет, как от неба
             float[] skyAmbient = { 0.3f, 0.4f, 0.6f, 1.0f };  // мягкий голубой
             float[] skyDiffuse = { 0.5f, 0.6f, 0.8f, 1.0f };  // чуть ярче голубой
@@ -580,13 +568,32 @@ namespace DemoSharpGL
             gl.Light(OpenGL.GL_LIGHT2, OpenGL.GL_SPECULAR, skySpecular);
             gl.Light(OpenGL.GL_LIGHT2, OpenGL.GL_POSITION, skyDirection);
         }
+        private void SetupSkyAmbientLightLambert(OpenGL gl)
+        {
+            gl.Enable(OpenGL.GL_LIGHTING);
+            gl.Enable(OpenGL.GL_LIGHT3);
+
+            gl.Enable(OpenGL.GL_COLOR_MATERIAL);
+            gl.ColorMaterial(OpenGL.GL_FRONT_AND_BACK, OpenGL.GL_AMBIENT_AND_DIFFUSE);
+        
+            float[] skyAmbient = { 0.3f, 0.4f, 0.6f, 1.0f };  // мягкий голубой
+            float[] skyDiffuse = { 0.5f, 0.6f, 0.8f, 1.0f };  // чуть ярче голубой
+
+            float[] skyDirection = { 0.0f, 300.0f, 0.0f, 0.0f };
+
+            gl.Light(OpenGL.GL_LIGHT3, OpenGL.GL_AMBIENT, skyAmbient);
+            gl.Light(OpenGL.GL_LIGHT3, OpenGL.GL_DIFFUSE, skyDiffuse);
+            gl.Light(OpenGL.GL_LIGHT3, OpenGL.GL_POSITION, skyDirection);
+        }
 
         private void DrawSphere(OpenGL gl, float radius, int latSegments, int lonSegments)
-        { 
+        {
 
             if (textureFlagBall)
+            {
                 gl.Enable(OpenGL.GL_TEXTURE_2D);
                 texture1.Bind(gl);
+            }
 
             for (int i = 0; i < latSegments; i++)
             {
@@ -596,7 +603,7 @@ namespace DemoSharpGL
                 float z1 = radius * (float)Math.Sin(lat1), zr1 = radius * (float)Math.Cos(lat1);
 
                 float v0 = (float)i / latSegments;
-                float v1 = (float)(i + 1) / latSegments;
+                float v1 = (float)(i + 1) / latSegments; ;
 
                 gl.Begin(OpenGL.GL_QUAD_STRIP);
                 for (int j = 0; j <= lonSegments; j++)
@@ -752,9 +759,8 @@ namespace DemoSharpGL
 
         private void ButtonBoxColor_Click(object sender, EventArgs e)
         {
-            colorDialogMain.Color = boxColor;
             colorDialogMain.ShowDialog();
-            boxColor = colorDialogMain.Color;
+            boxColor = new Vector3((float)colorDialogMain.Color.R, (float)colorDialogMain.Color.G, (float)colorDialogMain.Color.B);
         }
 
         private void ButtonFloorColor_Click_1(object sender, EventArgs e)
@@ -806,15 +812,37 @@ namespace DemoSharpGL
         {
             Points.Clear();
         }
+        private void radioButtonProjectionOn_CheckedChanged(object sender, EventArgs e)
+        {
+            point = true;
+        }
+
+        private void radioButtonProjectionOff_CheckedChanged(object sender, EventArgs e)
+        {
+            point = false;
+        }
 
         private void RadioButtonHeavenlyLighting_CheckedChanged(object sender, EventArgs e)
         {
             var gl = GL.OpenGL;
-            gl.Disable(OpenGL.GL_LIGHT0);
-            gl.Disable(OpenGL.GL_LIGHT1);
-            gl.Enable(OpenGL.GL_LIGHT2);
-            flagHeavenly = true;
-            intensity = 0.3f;
+            if (flagLighting)
+            {
+                gl.Disable(OpenGL.GL_LIGHT0);
+                gl.Disable(OpenGL.GL_LIGHT1);
+                gl.Disable(OpenGL.GL_LIGHT3);
+                gl.Enable(OpenGL.GL_LIGHT2);
+                flagHeavenly = true;
+                intensity = 0.3f;
+            }
+            else
+            {
+                gl.Disable(OpenGL.GL_LIGHT0);
+                gl.Disable(OpenGL.GL_LIGHT1);
+                gl.Disable(OpenGL.GL_LIGHT2);
+                gl.Enable(OpenGL.GL_LIGHT3);
+                flagHeavenly = true;
+                intensity = 0.3f;
+            }
         }
 
         private void radioButtonPositionalLight_CheckedChanged(object sender, EventArgs e)
@@ -824,15 +852,17 @@ namespace DemoSharpGL
             {
                 gl.Disable(OpenGL.GL_LIGHT2);
                 gl.Disable(OpenGL.GL_LIGHT1);
-                gl.Enable(OpenGL.GL_LIGHTING);
+                gl.Disable(OpenGL.GL_LIGHT3);
                 gl.Enable(OpenGL.GL_LIGHT0);
+                flagHeavenly = false;
                 intensity = 0.5f;
             }
             else {
                 gl.Disable(OpenGL.GL_LIGHT2);
                 gl.Disable(OpenGL.GL_LIGHT0);
-                gl.Enable(OpenGL.GL_LIGHTING);
+                gl.Disable(OpenGL.GL_LIGHT3);
                 gl.Enable(OpenGL.GL_LIGHT1);
+                flagHeavenly = false;
                 intensity = 0.5f;
             }
         }
@@ -840,11 +870,15 @@ namespace DemoSharpGL
         private void radioButtonLambert_CheckedChanged(object sender, EventArgs e)
         {
             var gl = GL.OpenGL;
-            gl.Disable(OpenGL.GL_LIGHT2);
-            gl.Disable(OpenGL.GL_LIGHT0);
-            gl.Enable(OpenGL.GL_LIGHTING);
-            gl.Enable(OpenGL.GL_LIGHT1);
-            flagHeavenly = false;
+            if (flagHeavenly)
+            {
+                gl.Disable(OpenGL.GL_LIGHT2);
+                gl.Enable(OpenGL.GL_LIGHT3);
+            }
+            else {
+                gl.Disable(OpenGL.GL_LIGHT0);
+                gl.Enable(OpenGL.GL_LIGHT1);
+            }
             flagLighting = false;
             intensity = 0.5f;
         }
@@ -852,12 +886,19 @@ namespace DemoSharpGL
         private void radioButtonPhong_CheckedChanged(object sender, EventArgs e)
         {
             var gl = GL.OpenGL;
-            gl.Disable(OpenGL.GL_LIGHT2);
-            gl.Disable(OpenGL.GL_LIGHT1);
-            gl.Enable(OpenGL.GL_LIGHT0);
-            flagHeavenly = false;
+            if (flagHeavenly)
+            {
+                gl.Disable(OpenGL.GL_LIGHT3);
+                gl.Enable(OpenGL.GL_LIGHT2);
+            }
+            else
+            {
+                gl.Disable(OpenGL.GL_LIGHT1);
+                gl.Enable(OpenGL.GL_LIGHT0);
+            }
             flagLighting = true;
             intensity = 0.5f;
         }
+
     }
 }

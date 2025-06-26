@@ -23,9 +23,7 @@ public class LoaderModel
             foreach (var node in scene.VisualChildren)
             {
                 DrawNode(gl, node);
-            }
-            gl.PopMatrix();
-        
+            }  
     }
 
     private void DrawNode(OpenGL gl, Node node)
@@ -44,7 +42,6 @@ public class LoaderModel
                 {
                     int idx = (int)index;
 
-                    // Установка нормали, если доступна
                     if (normals != null && idx < normals.Count)
                     {
                         var normal = normals[idx];
@@ -58,8 +55,6 @@ public class LoaderModel
                 gl.End();
             }
         }
-
-        // Рекурсивный обход потомков
         foreach (var child in node.VisualChildren)
         {
             DrawNode(gl, child);
